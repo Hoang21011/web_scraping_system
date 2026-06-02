@@ -9,7 +9,7 @@ headers = {
 }
 
 # Đường dẫn API đang hoạt động
-url = "https://api.onehousing.vn/onehousing-channel/v1/inventories"
+url = "https://api.onehousing.vn/onehousing-channel/v1/inventories/properties/7LVMFB/similar"
 
 # Gửi GET request và giả lập Chrome để vượt Cloudflare TLS fingerprinting
 response = requests.get(url, headers=headers, impersonate="chrome")
