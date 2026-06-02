@@ -14,7 +14,7 @@ headers = {
 }
 
 PROJECT_INSIGHTS_API = os.getenv("PROJECT_INSIGHTS_API", "https://api.onehousing.vn/onehousing-channel/v1/insights/projects")
-QUICK_FILTER_API = "https://api.onehousing.vn/onehousing-channel/v1/inventories/search/quick-filter?fetch_all=true"
+QUICK_FILTER_API = os.getenv("QUICK_FILTER_API", "https://api.onehousing.vn/onehousing-channel/v1/inventories/search/quick-filter?fetch_all=true")
 
 def fetch_quick_filter():
     """

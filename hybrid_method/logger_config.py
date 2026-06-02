@@ -1,10 +1,15 @@
 import logging
 import os
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load .env
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 def setup_logger():
     # Ensure logs directory exists
-    log_dir = os.path.join(os.path.dirname(__file__), "logs")
+    log_dir_name = os.getenv("LOG_DIR", "logs")
+    log_dir = os.path.join(os.path.dirname(__file__), log_dir_name)
     os.makedirs(log_dir, exist_ok=True)
     
     # Generate log file name based on current time
