@@ -31,6 +31,22 @@ def fetch_quick_filter():
         logger.error(f"Exception during fetch_quick_filter: {e}")
         return None
 
+def fetch_project_details(project_id):
+    """
+    Fetch detailed platform data: Name, Location, Amenities, and Subdivisions.
+    """
+    url = f"{PROJECT_INSIGHTS_API}/{project_id}"
+    try:
+        response = requests.get(url, headers=headers, impersonate="chrome", timeout=15)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"Project Details API Error {response.status_code} for URL: {url}")
+            return None
+    except Exception as e:
+        logger.error(f"Exception during request to {url}: {e}")
+        return None
+
 def fetch_price_history(project_id):
     """
     Fetch price history for a specific project/subdivision ID.
