@@ -1,0 +1,31 @@
+2026-06-02 11:50:41,479 - INFO - Starting Project Level Scraper Pipeline...
+2026-06-02 11:50:41,479 - INFO - Initializing Seed List with Vinhomes projects...
+2026-06-02 11:50:41,807 - INFO - Successfully extracted 9 Vinhomes projects for the queue.
+2026-06-02 11:50:41,807 - INFO - Progress: 0/9
+2026-06-02 11:50:41,807 - INFO - Processing Project ID: cf917354-48bf-11eb-b378-0242ac130002
+2026-06-02 11:50:47,110 - INFO - Finished processing Project ID: cf917354-48bf-11eb-b378-0242ac130002
+2026-06-02 11:50:47,111 - INFO - Progress: 1/9
+2026-06-02 11:50:47,111 - INFO - Processing Project ID: 16a7f900-56e6-11eb-ae93-0242ac130002
+2026-06-02 11:50:52,290 - INFO - Finished processing Project ID: 16a7f900-56e6-11eb-ae93-0242ac130002
+2026-06-02 11:50:52,290 - INFO - Progress: 2/9
+2026-06-02 11:50:52,290 - INFO - Processing Project ID: b05d6b99-2fb2-438d-b8c7-8e87b473ff4e
+2026-06-02 11:50:57,616 - INFO - Finished processing Project ID: b05d6b99-2fb2-438d-b8c7-8e87b473ff4e
+2026-06-02 11:50:57,616 - INFO - Progress: 3/9
+2026-06-02 11:50:57,617 - INFO - Processing Project ID: 78207126-e405-258a-10b4-c3920bd1f7b0
+2026-06-02 11:51:02,775 - INFO - Finished processing Project ID: 78207126-e405-258a-10b4-c3920bd1f7b0
+2026-06-02 11:51:02,775 - INFO - Progress: 4/9
+2026-06-02 11:51:02,775 - INFO - Processing Project ID: 6e695613-0a81-b747-428d-aaa4b42e0934
+2026-06-02 11:51:07,807 - INFO - Finished processing Project ID: 6e695613-0a81-b747-428d-aaa4b42e0934
+2026-06-02 11:51:07,807 - INFO - Progress: 5/9
+2026-06-02 11:51:07,807 - INFO - Processing Project ID: f2500d09-eacc-d3ee-b61b-be93b3848986
+2026-06-02 11:51:12,883 - INFO - Finished processing Project ID: f2500d09-eacc-d3ee-b61b-be93b3848986
+2026-06-02 11:51:12,883 - INFO - Progress: 6/9
+2026-06-02 11:51:12,883 - INFO - Processing Project ID: d2ff358b-21c0-366d-efca-0c77bb8096a0
+2026-06-02 11:51:18,033 - INFO - Finished processing Project ID: d2ff358b-21c0-366d-efca-0c77bb8096a0
+2026-06-02 11:51:18,034 - INFO - Progress: 7/9
+2026-06-02 11:51:18,034 - INFO - Processing Project ID: 97658677-0aba-47e4-bf56-29a767748139
+2026-06-02 11:51:23,166 - INFO - Finished processing Project ID: 97658677-0aba-47e4-bf56-29a767748139
+2026-06-02 11:51:23,167 - INFO - Progress: 8/9
+2026-06-02 11:51:23,167 - INFO - Processing Project ID: 1effb236-56e7-11eb-ae93-0242ac130002
+2026-06-02 11:51:28,246 - INFO - Finished processing Project ID: 1effb236-56e7-11eb-ae93-0242ac130002
+2026-06-02 11:51:28,246 - INFO - Project Level Crawler Finished! Processed 9 projects in 46.77 seconds.
