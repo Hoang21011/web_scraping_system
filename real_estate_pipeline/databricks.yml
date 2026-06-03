@@ -1,0 +1,78 @@
+# This is a Databricks asset bundle definition for real_estate_pipeline.
+bundle:
+  name: real_estate_pipeline
+  uuid: 2a6ee79c-3d25-4f50-8355-e95c50a2f613
+
+include:
+  - resources/*.yml
+
+artifacts:
+  python_artifact:
+    type: whl
+    build: uv build --wheel
+
+variables:
+  catalog:
+    description: The catalog to use
+  schema:
+    description: The schema to use
+
+targets:
+  dev:
+    mode: development
+    default: true
+    sync:
+      include:
+        - ./src/*.py
+    workspace:
+      host: https://dbc-cf7d5802-b625.cloud.databricks.com
+    variables:
+      catalog: workspace
+      schema: ${workspace.current_user.short_name}
+      
+  prod:
+    mode: production
+    workspace:
+      host: https://dbc-cf7d5802-b625.cloud.databricks.com
+      root_path: /Workspace/Users/nhnghia210@gmail.com/.bundle/${bundle.name}/${bundle.target}
+    variables:
+      catalog: workspace
+      schema: prod
+    permissions:
+      - user_name: nhnghia210@gmail.com
+        level: CAN_MANAGE
+
+resources:
+  jobs:
+    real_estate_medallion_job:
+      name: "ETL_pipeline"
+
+      trigger:
+        periodic: 
+          interval: 1
+          unit: DAYS
+
+      environments:
+        - environment_key: "default"
+          spec:
+            client: "1"
+
+      tasks:
+        - task_key: "Extract"
+          spark_python_task:
+            python_file: "./src/main.py"
+          environment_key: "default"
+        
+        - task_key: "Transform"
+          depends_on:
+            - task_key: "Extract"
+          spark_python_task:
+            python_file: "./src/silver_etl.py"
+          environment_key: "default"
+        
+        - task_key: "Aggregration"
+          depends_on:
+            - task_key: "Transform" 
+          spark_python_task: 
+            python_file: "./src/gold_aggregation.py"
+          environment_key: "default"
