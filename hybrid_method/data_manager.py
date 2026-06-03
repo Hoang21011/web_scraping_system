@@ -1,9 +1,15 @@
 import os
 import json
 from logger_config import logger
+from dotenv import load_dotenv
+
+# Load .env relative to this file
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
 class DataManager:
-    def __init__(self, data_dir="data/bronze"):
+    def __init__(self, data_dir=None):
+        if data_dir is None:
+            data_dir = os.getenv("BRONZE_DATA_DIR", "data/bronze")
         self.data_dir = os.path.join(os.path.dirname(__file__), data_dir)
         os.makedirs(self.data_dir, exist_ok=True)
         
