@@ -1,13 +1,18 @@
 import duckdb
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def create_silver_layer():
     # Thư mục chứa dữ liệu đầu ra Silver
-    silver_dir = os.path.join(os.path.dirname(__file__), "data", "silver")
+    silver_dir_name = os.getenv("SILVER_DATA_DIR", "data/silver")
+    silver_dir = os.path.join(os.path.dirname(__file__), silver_dir_name)
     os.makedirs(silver_dir, exist_ok=True)
     
     # Kết nối DB hiện tại (chứa Bronze)
-    db_path = os.path.join(os.path.dirname(__file__), "data", "real_estate.duckdb")
+    db_name = os.getenv("DUCKDB_PATH", "data/real_estate.duckdb")
+    db_path = os.path.join(os.path.dirname(__file__), db_name)
     conn = duckdb.connect(db_path)
     
     print("Bắt đầu xử lý dữ liệu Bronze -> Silver...")

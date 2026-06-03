@@ -11,7 +11,8 @@ def export_to_duckdb():
     abs_data_dir = os.path.join(os.path.dirname(__file__), data_dir)
     
     # Target database file
-    db_path = os.path.join(os.path.dirname(__file__), "data", "real_estate.duckdb")
+    db_name = os.getenv("DUCKDB_PATH", "data/real_estate.duckdb")
+    db_path = os.path.join(os.path.dirname(__file__), db_name)
     
     # Ensure data directory exists
     os.makedirs(os.path.dirname(db_path), exist_ok=True)

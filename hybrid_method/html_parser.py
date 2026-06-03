@@ -1,4 +1,5 @@
 import json
+import os
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 from logger_config import logger
@@ -7,7 +8,8 @@ def fetch_html_page(page_number):
     """
     Fetch the HTML content for a specific page.
     """
-    url = f"https://onehousing.vn/ban-can-ho?loai=villa,row_house,shop_house&page={page_number}"
+    url_template = os.getenv("HTML_SCRAPE_URL_TEMPLATE", "https://onehousing.vn/ban-can-ho?loai=villa,row_house,shop_house&page={}")
+    url = url_template.format(page_number)
     try:
         response = requests.get(url, impersonate="chrome", timeout=15)
         if response.status_code == 200:
