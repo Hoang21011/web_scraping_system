@@ -1,0 +1,307 @@
+2026-06-02 18:12:41,445 - INFO - Starting Hybrid Method Web Scraping System
+2026-06-02 18:12:41,447 - INFO - --- STARTING STEP 2 & 3: HTML PAGINATION CRAWLER ---
+2026-06-02 18:12:41,447 - INFO - Fetching HTML page 1...
+2026-06-02 18:12:41,973 - INFO - Page 1: Saved 20 properties.
+2026-06-02 18:12:43,478 - INFO - Fetching HTML page 2...
+2026-06-02 18:12:43,832 - INFO - Page 2: Saved 20 properties.
+2026-06-02 18:12:45,336 - INFO - Fetching HTML page 3...
+2026-06-02 18:12:45,631 - INFO - Page 3: Saved 20 properties.
+2026-06-02 18:12:47,137 - INFO - Fetching HTML page 4...
+2026-06-02 18:12:47,462 - INFO - Page 4: Saved 20 properties.
+2026-06-02 18:12:48,968 - INFO - Fetching HTML page 5...
+2026-06-02 18:12:49,293 - INFO - Page 5: Saved 20 properties.
+2026-06-02 18:12:50,795 - INFO - Fetching HTML page 6...
+2026-06-02 18:12:51,104 - INFO - Page 6: Saved 20 properties.
+2026-06-02 18:12:52,609 - INFO - Fetching HTML page 7...
+2026-06-02 18:12:52,903 - INFO - Page 7: Saved 20 properties.
+2026-06-02 18:12:54,408 - INFO - Fetching HTML page 8...
+2026-06-02 18:12:54,707 - INFO - Page 8: Saved 20 properties.
+2026-06-02 18:12:56,209 - INFO - Fetching HTML page 9...
+2026-06-02 18:12:56,513 - INFO - Page 9: Saved 20 properties.
+2026-06-02 18:12:58,018 - INFO - Fetching HTML page 10...
+2026-06-02 18:12:58,371 - INFO - Page 10: Saved 20 properties.
+2026-06-02 18:12:59,876 - INFO - Fetching HTML page 11...
+2026-06-02 18:13:00,201 - INFO - Page 11: Saved 20 properties.
+2026-06-02 18:13:01,706 - INFO - Fetching HTML page 12...
+2026-06-02 18:13:01,997 - INFO - Page 12: Saved 20 properties.
+2026-06-02 18:13:03,502 - INFO - Fetching HTML page 13...
+2026-06-02 18:13:03,819 - INFO - Page 13: Saved 20 properties.
+2026-06-02 18:13:05,324 - INFO - Fetching HTML page 14...
+2026-06-02 18:13:05,641 - INFO - Page 14: Saved 20 properties.
+2026-06-02 18:13:07,146 - INFO - Fetching HTML page 15...
+2026-06-02 18:13:07,438 - INFO - Page 15: Saved 20 properties.
+2026-06-02 18:13:08,943 - INFO - Fetching HTML page 16...
+2026-06-02 18:13:09,237 - INFO - Page 16: Saved 20 properties.
+2026-06-02 18:13:10,742 - INFO - Fetching HTML page 17...
+2026-06-02 18:13:11,056 - INFO - Page 17: Saved 20 properties.
+2026-06-02 18:13:12,562 - INFO - Fetching HTML page 18...
+2026-06-02 18:13:12,852 - INFO - Page 18: Saved 20 properties.
+2026-06-02 18:13:14,357 - INFO - Fetching HTML page 19...
+2026-06-02 18:13:14,651 - INFO - Page 19: Saved 20 properties.
+2026-06-02 18:13:16,156 - INFO - Fetching HTML page 20...
+2026-06-02 18:13:16,478 - INFO - Page 20: Saved 20 properties.
+2026-06-02 18:13:17,983 - INFO - Fetching HTML page 21...
+2026-06-02 18:13:18,297 - INFO - Page 21: Saved 20 properties.
+2026-06-02 18:13:19,802 - INFO - Fetching HTML page 22...
+2026-06-02 18:13:20,103 - INFO - Page 22: Saved 20 properties.
+2026-06-02 18:13:21,608 - INFO - Fetching HTML page 23...
+2026-06-02 18:13:22,038 - INFO - Page 23: Saved 20 properties.
+2026-06-02 18:13:23,543 - INFO - Fetching HTML page 24...
+2026-06-02 18:13:23,977 - INFO - Page 24: Saved 20 properties.
+2026-06-02 18:13:25,478 - INFO - Fetching HTML page 25...
+2026-06-02 18:13:25,757 - INFO - Page 25: Saved 20 properties.
+2026-06-02 18:13:27,262 - INFO - Fetching HTML page 26...
+2026-06-02 18:13:27,609 - INFO - Page 26: Saved 20 properties.
+2026-06-02 18:13:29,114 - INFO - Fetching HTML page 27...
+2026-06-02 18:13:29,407 - INFO - Page 27: Saved 20 properties.
+2026-06-02 18:13:30,913 - INFO - Fetching HTML page 28...
+2026-06-02 18:13:31,229 - INFO - Page 28: Saved 20 properties.
+2026-06-02 18:13:32,734 - INFO - Fetching HTML page 29...
+2026-06-02 18:13:33,027 - INFO - Page 29: Saved 20 properties.
+2026-06-02 18:13:34,528 - INFO - Fetching HTML page 30...
+2026-06-02 18:13:34,824 - INFO - Page 30: Saved 20 properties.
+2026-06-02 18:13:36,328 - INFO - Fetching HTML page 31...
+2026-06-02 18:13:36,600 - INFO - Page 31: Saved 20 properties.
+2026-06-02 18:13:38,102 - INFO - Fetching HTML page 32...
+2026-06-02 18:13:38,522 - INFO - Page 32: Saved 20 properties.
+2026-06-02 18:13:40,027 - INFO - Fetching HTML page 33...
+2026-06-02 18:13:40,329 - INFO - Page 33: Saved 20 properties.
+2026-06-02 18:13:41,830 - INFO - Fetching HTML page 34...
+2026-06-02 18:13:42,146 - INFO - Page 34: Saved 20 properties.
+2026-06-02 18:13:43,648 - INFO - Fetching HTML page 35...
+2026-06-02 18:13:43,934 - INFO - Page 35: Saved 20 properties.
+2026-06-02 18:13:45,435 - INFO - Fetching HTML page 36...
+2026-06-02 18:13:45,716 - INFO - Page 36: Saved 20 properties.
+2026-06-02 18:13:47,221 - INFO - Fetching HTML page 37...
+2026-06-02 18:13:47,530 - INFO - Page 37: Saved 20 properties.
+2026-06-02 18:13:49,035 - INFO - Fetching HTML page 38...
+2026-06-02 18:13:49,336 - INFO - Page 38: Saved 20 properties.
+2026-06-02 18:13:50,841 - INFO - Fetching HTML page 39...
+2026-06-02 18:13:51,148 - INFO - Page 39: Saved 20 properties.
+2026-06-02 18:13:52,648 - INFO - Fetching HTML page 40...
+2026-06-02 18:13:52,939 - INFO - Page 40: Saved 20 properties.
+2026-06-02 18:13:54,444 - INFO - Fetching HTML page 41...
+2026-06-02 18:13:54,743 - INFO - Page 41: Saved 20 properties.
+2026-06-02 18:13:56,246 - INFO - Fetching HTML page 42...
+2026-06-02 18:13:56,550 - INFO - Page 42: Saved 20 properties.
+2026-06-02 18:13:58,055 - INFO - Fetching HTML page 43...
+2026-06-02 18:13:58,359 - INFO - Page 43: Saved 20 properties.
+2026-06-02 18:13:59,864 - INFO - Fetching HTML page 44...
+2026-06-02 18:14:00,154 - INFO - Page 44: Saved 20 properties.
+2026-06-02 18:14:01,660 - INFO - Fetching HTML page 45...
+2026-06-02 18:14:01,949 - INFO - Page 45: Saved 20 properties.
+2026-06-02 18:14:03,451 - INFO - Fetching HTML page 46...
+2026-06-02 18:14:03,779 - INFO - Page 46: Saved 20 properties.
+2026-06-02 18:14:05,280 - INFO - Fetching HTML page 47...
+2026-06-02 18:14:05,657 - INFO - Page 47: Saved 20 properties.
+2026-06-02 18:14:07,162 - INFO - Fetching HTML page 48...
+2026-06-02 18:14:07,466 - INFO - Page 48: Saved 20 properties.
+2026-06-02 18:14:08,971 - INFO - Fetching HTML page 49...
+2026-06-02 18:14:09,300 - INFO - Page 49: Saved 20 properties.
+2026-06-02 18:14:10,800 - INFO - Fetching HTML page 50...
+2026-06-02 18:14:11,101 - INFO - Page 50: Saved 20 properties.
+2026-06-02 18:14:12,606 - INFO - Fetching HTML page 51...
+2026-06-02 18:14:12,904 - INFO - Page 51: Saved 20 properties.
+2026-06-02 18:14:14,409 - INFO - Fetching HTML page 52...
+2026-06-02 18:14:14,723 - INFO - Page 52: Saved 20 properties.
+2026-06-02 18:14:16,229 - INFO - Fetching HTML page 53...
+2026-06-02 18:14:16,556 - INFO - Page 53: Saved 20 properties.
+2026-06-02 18:14:18,061 - INFO - Fetching HTML page 54...
+2026-06-02 18:14:18,432 - INFO - Page 54: Saved 20 properties.
+2026-06-02 18:14:19,937 - INFO - Fetching HTML page 55...
+2026-06-02 18:14:20,245 - INFO - Page 55: Saved 20 properties.
+2026-06-02 18:14:21,751 - INFO - Fetching HTML page 56...
+2026-06-02 18:14:22,133 - INFO - Page 56: Saved 20 properties.
+2026-06-02 18:14:23,638 - INFO - Fetching HTML page 57...
+2026-06-02 18:14:24,083 - INFO - Page 57: Saved 20 properties.
+2026-06-02 18:14:25,588 - INFO - Fetching HTML page 58...
+2026-06-02 18:14:25,887 - INFO - Page 58: Saved 20 properties.
+2026-06-02 18:14:27,392 - INFO - Fetching HTML page 59...
+2026-06-02 18:14:27,711 - INFO - Page 59: Saved 20 properties.
+2026-06-02 18:14:29,216 - INFO - Fetching HTML page 60...
+2026-06-02 18:14:29,550 - INFO - Page 60: Saved 20 properties.
+2026-06-02 18:14:31,055 - INFO - Fetching HTML page 61...
+2026-06-02 18:14:31,448 - INFO - Page 61: Saved 20 properties.
+2026-06-02 18:14:32,953 - INFO - Fetching HTML page 62...
+2026-06-02 18:14:33,326 - INFO - Page 62: Saved 20 properties.
+2026-06-02 18:14:34,831 - INFO - Fetching HTML page 63...
+2026-06-02 18:14:35,245 - INFO - Page 63: Saved 20 properties.
+2026-06-02 18:14:36,750 - INFO - Fetching HTML page 64...
+2026-06-02 18:14:37,086 - INFO - Page 64: Saved 20 properties.
+2026-06-02 18:14:38,591 - INFO - Fetching HTML page 65...
+2026-06-02 18:14:38,902 - INFO - Page 65: Saved 20 properties.
+2026-06-02 18:14:40,407 - INFO - Fetching HTML page 66...
+2026-06-02 18:14:40,779 - INFO - Page 66: Saved 20 properties.
+2026-06-02 18:14:42,284 - INFO - Fetching HTML page 67...
+2026-06-02 18:14:42,763 - INFO - Page 67: Saved 20 properties.
+2026-06-02 18:14:44,268 - INFO - Fetching HTML page 68...
+2026-06-02 18:14:44,653 - INFO - Page 68: Saved 3 properties.
+2026-06-02 18:14:46,155 - INFO - Fetching HTML page 69...
+2026-06-02 18:14:46,369 - INFO - No properties found on page 69. End of pages.
+2026-06-02 18:14:46,369 - INFO - HTML Crawler finished. Total properties saved: 1343
+2026-06-02 18:14:46,369 - INFO - --- STARTING STEP 4: FETCH DETAILED PROJECTS & SUBDIVISIONS ---
+2026-06-02 18:14:46,536 - INFO - Fetching details for Project: Vinhomes Ocean Park (cf917354-48bf-11eb-b378-0242ac130002)
+2026-06-02 18:14:48,169 - INFO - Fetching details for Project: Masteri Waterfront (d6e2befe-e05b-4924-99ed-bea9bacc6626)
+2026-06-02 18:14:49,775 - INFO - Fetching details for Project: Vinhomes Smart City (16a7f900-56e6-11eb-ae93-0242ac130002)
+2026-06-02 18:14:51,406 - INFO - Fetching details for Project: Masteri Lakeside (de03e79d-23d7-9e39-389e-ea81d5ee6a9e)
+2026-06-02 18:14:53,005 - INFO - Fetching details for Project: Imperia Smart City (f23c7f6b-dd2b-c30c-0961-142a264eb995)
+2026-06-02 18:14:54,610 - INFO - Fetching details for Project: Masteri West Heights (027f12d0-25af-4c0d-ab68-2cea3e335418)
+2026-06-02 18:14:56,220 - INFO - Fetching details for Project: Lumière Evergreen (e5a58aa1-7c2f-3849-eff3-5cf1362ae401)
+2026-06-02 18:14:57,827 - INFO - Fetching details for Project: Vinhomes Ocean Park 2 - The Empire (b05d6b99-2fb2-438d-b8c7-8e87b473ff4e)
+2026-06-02 18:14:59,442 - INFO - Fetching details for Project: Lumière SpringBay (5f019374-797b-22a8-f70a-c42e4211f10d)
+2026-06-02 18:15:01,050 - INFO - Fetching details for Project: Vinhomes Symphony (78207126-e405-258a-10b4-c3920bd1f7b0)
+2026-06-02 18:15:02,660 - INFO - Fetching details for Project: Vinhomes Ocean Park 3 - The Crown (44464a22-247b-b941-468a-cf48ba677827)
+2026-06-02 18:15:04,272 - INFO - Fetching details for Project: Kim Văn Kim Lũ (f9741ca5-ff91-199f-dc96-597b7fbc4ed6)
+2026-06-02 18:15:05,884 - INFO - Fetching details for Project: The Senique Hanoi (ddc3d9cc-f889-dc2c-6f46-be415f145e6d)
+2026-06-02 18:15:07,485 - INFO - Fetching details for Project: Masteri Grand Avenue (2ad91005-b784-9196-1cbd-81294ac738b2)
+2026-06-02 18:15:09,086 - INFO - Fetching details for Project: Vinhomes Green Bay (6e695613-0a81-b747-428d-aaa4b42e0934)
+2026-06-02 18:15:10,697 - INFO - Fetching details for Project: Vinhomes Metropolis (f2500d09-eacc-d3ee-b61b-be93b3848986)
+2026-06-02 18:15:12,294 - INFO - Fetching details for Project: Phương Đông Green Park (0e5551c0-3063-c10e-2f85-0dddc81caa1f)
+2026-06-02 18:15:13,897 - INFO - Fetching details for Project: Swan Park Onsen Residences (27b73b9c-3874-6401-3a84-c43d7b128d5d)
+2026-06-02 18:15:15,504 - INFO - Fetching details for Project: Hinode City (647bbc80-b78e-90a2-1620-79e142995baf)
+2026-06-02 18:15:17,105 - INFO - Fetching details for Project: Chung cư 25 Lạc Trung (69af5bf9-ba4a-72b1-cbd3-a8e3f9caaaa6)
+2026-06-02 18:15:18,746 - INFO - Fetching details for Project: Vinhomes Global Gate (d2ff358b-21c0-366d-efca-0c77bb8096a0)
+2026-06-02 18:15:20,349 - INFO - Fetching details for Project: Vinhomes Times City (1effb236-56e7-11eb-ae93-0242ac130002)
+2026-06-02 18:15:21,956 - INFO - Fetching details for Project: Masteri Trinity Square (270f7535-d12e-8538-10bb-d4f696e15475)
+2026-06-02 18:15:23,568 - INFO - Fetching details for Project: HH Linh Đàm (3a404699-a761-f080-ba5c-c4359185566e)
+2026-06-02 18:15:25,178 - INFO - Fetching details for Project: Vinhomes Riverside (4d2a76a8-33ee-717f-456e-fc5aed1330ff)
+2026-06-02 18:15:26,798 - INFO - Fetching details for Project: Mandarin Garden (593af29f-40b9-11d5-e4a7-cd0035b81eb5)
+2026-06-02 18:15:28,411 - INFO - Fetching details for Project: Ecohome Phúc Lợi (64efaaae-236a-67c0-3e3d-a60ebefcf658)
+2026-06-02 18:15:30,009 - INFO - Fetching details for Project: Lumière Orient Pearl (6cb85b33-5592-7a70-9c31-f54211762571)
+2026-06-02 18:15:31,625 - INFO - Fetching details for Project: Imperia Garden (75c3757d-dbfa-19a2-5a65-1dea6ed21e6e)
+2026-06-02 18:15:33,221 - INFO - Fetching details for Project: Bình Minh Garden (814876a9-40ba-549b-cc1d-58b71aead1c4)
+2026-06-02 18:15:34,829 - INFO - Fetching details for Project: Green Pearl (87709ec8-56f5-f9dd-d7d0-cdde5926b1e0)
+2026-06-02 18:15:36,438 - INFO - Fetching details for Project: Vinhomes Royal City (97658677-0aba-47e4-bf56-29a767748139)
+2026-06-02 18:15:38,038 - INFO - Fetching details for Project: Eco Lake View (9a0dfc53-05d9-bdec-8801-dfcb8386fd14)
+2026-06-02 18:15:39,643 - INFO - Fetching details for Project: Metropolitan (abc2e2f3-2e48-6fc2-e107-2003cc88149a)
+2026-06-02 18:15:41,247 - INFO - Fetching details for Project: Amber Riverside (ac9a12f0-522b-ff75-fc95-10ed50fe4428)
+2026-06-02 18:15:42,852 - INFO - Fetching details for Project: Five Star Garden (afbdfc7a-a6ab-0168-c318-07850a84b95f)
+2026-06-02 18:15:44,472 - INFO - Fetching details for Project: Green House Việt Hưng (b943cde2-0427-945e-18af-27b59aa76341)
+2026-06-02 18:15:46,088 - INFO - Fetching details for Project: Tecco Garden (bd60530c-1bd0-022e-ba1c-30fd5a037c76)
+2026-06-02 18:15:47,689 - INFO - Fetching details for Project: Chung cư Vinaconex 1 (c8db61f8-8ceb-db93-68c8-db5f6fa4661a)
+2026-06-02 18:15:49,391 - INFO - Fetching details for Project: Vinhomes Thăng Long (cc0027e7-88b5-249d-337c-a642c343bf0f)
+2026-06-02 18:15:51,003 - INFO - Fetching details for Project: Thăng Long Victory (cc706bcb-eb12-49eb-b162-84221693e00b)
+2026-06-02 18:15:52,655 - INFO - Fetching details for Project: Skylight (d0ba6d54-b4b6-f3f8-4c9a-102fcf128e34)
+2026-06-02 18:15:54,245 - INFO - Fetching details for Project: Hope Residence (d14be33a-d2b3-de4a-0e91-21b328a8eba3)
+2026-06-02 18:15:55,849 - INFO - Fetching details for Project: Sunshine Garden (d17a6b91-37fe-5d78-9f8b-913d8daaa815)
+2026-06-02 18:15:57,454 - INFO - Fetching details for Project: Le Grand Jardin (d3b4a32e-7e34-56c8-1ea6-2a8c407f1bc3)
+2026-06-02 18:15:59,064 - INFO - Fetching details for Project: HH2 Bắc Hà (dedd1b83-d324-38fa-f485-e4457b3af17f)
+2026-06-02 18:16:00,663 - INFO - Fetching details for Project: The Landmark Swanlake Residences (e39ecf90-ab88-eedf-9b25-59478fc89d23)
+2026-06-02 18:16:02,272 - INFO - Saved 47 detailed projects and 102 subdivisions.
+2026-06-02 18:16:02,272 - INFO - --- STARTING STEP 5: FETCH PROJECT PRICING ---
+2026-06-02 18:16:02,272 - INFO - Fetching pricing for project/subdivision ID: 5d9a2770-db4c-b8ab-7491-8175ce98c1d0
+2026-06-02 18:16:03,991 - INFO - Pricing for 0c2312c1-56e1-15d4-2924-451cf7645216 already fetched. Skipping.
+2026-06-02 18:16:03,991 - INFO - Pricing for d0ba6d54-b4b6-f3f8-4c9a-102fcf128e34 already fetched. Skipping.
+2026-06-02 18:16:03,991 - INFO - Pricing for 636db6a7-1d53-23cc-3bbb-f17e4feca453 already fetched. Skipping.
+2026-06-02 18:16:03,991 - INFO - Fetching pricing for project/subdivision ID: 46837733-5698-36b2-8b06-19ef05c5c3f3
+2026-06-02 18:16:05,721 - INFO - Fetching pricing for project/subdivision ID: e382ec6b-cda5-3b31-a4cd-40e27cc29748
+2026-06-02 18:16:07,423 - INFO - Pricing for 27b73b9c-3874-6401-3a84-c43d7b128d5d already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for b943cde2-0427-945e-18af-27b59aa76341 already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for 2ad91005-b784-9196-1cbd-81294ac738b2 already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for 270f7535-d12e-8538-10bb-d4f696e15475 already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for e39ecf90-ab88-eedf-9b25-59478fc89d23 already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for 536dcfe3-2c35-2aa8-3115-8493510cf9cf already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for 557abdb7-44b6-02ce-9375-f52fc6881285 already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for b05d6b99-2fb2-438d-b8c7-8e87b473ff4e already fetched. Skipping.
+2026-06-02 18:16:07,423 - INFO - Pricing for ddc3d9cc-f889-dc2c-6f46-be415f145e6d already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for fb97e766-930f-a485-3355-13daa2004e60 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 97658677-0aba-47e4-bf56-29a767748139 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 1effb236-56e7-11eb-ae93-0242ac130002 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 137e71ef-ffc9-137d-b074-debfa623516a already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for f23c7f6b-dd2b-c30c-0961-142a264eb995 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 00f8f36e-4748-f90f-6959-8d812a018d8f already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 4250d898-c06c-5486-74cb-a04cd208c2be already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for afbdfc7a-a6ab-0168-c318-07850a84b95f already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for c7899213-ed82-5367-99c9-9f9cbde5803b already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for d14be33a-d2b3-de4a-0e91-21b328a8eba3 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 36178c1d-bab0-fa6c-d895-f874b92590f6 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for d3b4a32e-7e34-56c8-1ea6-2a8c407f1bc3 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 647bbc80-b78e-90a2-1620-79e142995baf already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for cf917354-48bf-11eb-b378-0242ac130002 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for ddd3d8ab-be53-e085-ad50-e63d2bcc253a already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Pricing for 18273b95-7c3b-346d-3282-d4cb066d6c69 already fetched. Skipping.
+2026-06-02 18:16:07,424 - INFO - Fetching pricing for project/subdivision ID: 55363301-255e-25e9-8b58-f3784b26af00
+2026-06-02 18:16:09,137 - INFO - Pricing for dedd1b83-d324-38fa-f485-e4457b3af17f already fetched. Skipping.
+2026-06-02 18:16:09,137 - INFO - Fetching pricing for project/subdivision ID: ea734e81-6fea-612f-78fc-1b4ef2240cb2
+2026-06-02 18:16:11,012 - INFO - Fetching pricing for project/subdivision ID: 8e07113f-bc90-c669-e2c1-1be66440a973
+2026-06-02 18:16:12,943 - INFO - Pricing for 4d2a76a8-33ee-717f-456e-fc5aed1330ff already fetched. Skipping.
+2026-06-02 18:16:12,943 - INFO - Fetching pricing for project/subdivision ID: 0fd90df7-a87e-9276-1b1f-a75c57e48465
+2026-06-02 18:16:14,792 - INFO - Pricing for 57b3fcbe-bf09-7238-3e43-2e2abad95ed5 already fetched. Skipping.
+2026-06-02 18:16:14,792 - INFO - Pricing for e6ce00d7-439c-28a1-1cff-adfd5555c797 already fetched. Skipping.
+2026-06-02 18:16:14,792 - INFO - Fetching pricing for project/subdivision ID: 6316dff8-1fca-9b91-d806-fa1a5959b85e
+2026-06-02 18:16:16,493 - INFO - Pricing for 26da2bcd-c848-5050-d4eb-06a1e5f03652 already fetched. Skipping.
+2026-06-02 18:16:16,493 - INFO - Pricing for bd60530c-1bd0-022e-ba1c-30fd5a037c76 already fetched. Skipping.
+2026-06-02 18:16:16,493 - INFO - Pricing for d17a6b91-37fe-5d78-9f8b-913d8daaa815 already fetched. Skipping.
+2026-06-02 18:16:16,493 - INFO - Pricing for 386a1c11-04fa-911a-1b81-98b42dca1bda already fetched. Skipping.
+2026-06-02 18:16:16,493 - INFO - Fetching pricing for project/subdivision ID: e2281b80-7c5d-602b-7406-0558a5fa7e1e
+2026-06-02 18:16:18,279 - INFO - Fetching pricing for project/subdivision ID: bf9e7f63-6965-2d93-6512-561a2afe193c
+2026-06-02 18:16:20,127 - INFO - Fetching pricing for project/subdivision ID: bd2bdb7e-bd86-6a73-c82f-2ff021ed8093
+2026-06-02 18:16:21,834 - INFO - Fetching pricing for project/subdivision ID: e8342dd3-a616-0e5d-809b-6e7f4695759c
+2026-06-02 18:16:23,569 - INFO - Pricing for abc2e2f3-2e48-6fc2-e107-2003cc88149a already fetched. Skipping.
+2026-06-02 18:16:23,570 - INFO - Pricing for 6b881bf2-d57d-7f4a-7956-0b54cd5bfef6 already fetched. Skipping.
+2026-06-02 18:16:23,570 - INFO - Fetching pricing for project/subdivision ID: 9587e315-8ac0-f219-de6a-75178d3293d4
+2026-06-02 18:16:25,275 - INFO - Pricing for ebae99b3-c97e-6267-65c4-ddf9e8f44986 already fetched. Skipping.
+2026-06-02 18:16:25,275 - INFO - Pricing for ac9a12f0-522b-ff75-fc95-10ed50fe4428 already fetched. Skipping.
+2026-06-02 18:16:25,275 - INFO - Pricing for a994429f-34b4-aeff-ee11-abb4feaea380 already fetched. Skipping.
+2026-06-02 18:16:25,275 - INFO - Fetching pricing for project/subdivision ID: 335f927f-7234-1242-894e-1fa0514bae8f
+2026-06-02 18:16:27,019 - INFO - Pricing for 75c3757d-dbfa-19a2-5a65-1dea6ed21e6e already fetched. Skipping.
+2026-06-02 18:16:27,019 - INFO - Pricing for 593af29f-40b9-11d5-e4a7-cd0035b81eb5 already fetched. Skipping.
+2026-06-02 18:16:27,019 - INFO - Pricing for d6e2befe-e05b-4924-99ed-bea9bacc6626 already fetched. Skipping.
+2026-06-02 18:16:27,020 - INFO - Pricing for 3860c78b-fc00-dfde-cdf5-1d6dac46992a already fetched. Skipping.
+2026-06-02 18:16:27,020 - INFO - Fetching pricing for project/subdivision ID: 6af8913d-0ae7-3f84-8918-9477bcc88044
+2026-06-02 18:16:28,734 - INFO - Pricing for 7e86c3d3-c12a-52e1-88cf-a4d3be05927b already fetched. Skipping.
+2026-06-02 18:16:28,735 - INFO - Pricing for 64efaaae-236a-67c0-3e3d-a60ebefcf658 already fetched. Skipping.
+2026-06-02 18:16:28,735 - INFO - Fetching pricing for project/subdivision ID: 63947c05-7c7b-cacf-5524-f6f7c6d24d4c
+2026-06-02 18:16:30,453 - INFO - Pricing for 87709ec8-56f5-f9dd-d7d0-cdde5926b1e0 already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 7f55436c-2396-61d9-9c4d-6a96760489ad already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 3a404699-a761-f080-ba5c-c4359185566e already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 16a7f900-56e6-11eb-ae93-0242ac130002 already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 9f9c7842-fc1e-95fd-1472-6973848b92d6 already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 69af5bf9-ba4a-72b1-cbd3-a8e3f9caaaa6 already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 1bea9c44-27aa-7e73-6aa9-bfb6e166a916 already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Pricing for 5fb74d5d-0056-5278-9558-806eaaa9889e already fetched. Skipping.
+2026-06-02 18:16:30,453 - INFO - Fetching pricing for project/subdivision ID: 2d8be393-719f-c4f8-cfa3-fa418c807003
+2026-06-02 18:16:32,160 - INFO - Pricing for d2ff358b-21c0-366d-efca-0c77bb8096a0 already fetched. Skipping.
+2026-06-02 18:16:32,160 - INFO - Fetching pricing for project/subdivision ID: 736d842b-333e-76c6-60d2-e572591d68ad
+2026-06-02 18:16:33,876 - INFO - Pricing for 01873ce9-1a10-f402-c626-788203147830 already fetched. Skipping.
+2026-06-02 18:16:33,876 - INFO - Fetching pricing for project/subdivision ID: 041b155e-8c26-1b22-2723-5db411c6e1e8
+2026-06-02 18:16:35,753 - INFO - Fetching pricing for project/subdivision ID: f473c5fb-b65f-b09e-7632-3f26af66ebb8
+2026-06-02 18:16:37,544 - INFO - Pricing for 0e05cf5a-e195-daa9-5a49-557bb783c636 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 6e695613-0a81-b747-428d-aaa4b42e0934 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 027f12d0-25af-4c0d-ab68-2cea3e335418 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 91b79dac-a15a-1f62-314d-d3325ec37dbc already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 7e20603c-69e1-c764-6c9c-29758c9db3a6 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for e8acc3a5-b543-cc29-ae76-8cde03750a42 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 2467d04f-643e-49a2-2250-842f72d0b78e already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for e5a58aa1-7c2f-3849-eff3-5cf1362ae401 already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Pricing for 0e5551c0-3063-c10e-2f85-0dddc81caa1f already fetched. Skipping.
+2026-06-02 18:16:37,545 - INFO - Fetching pricing for project/subdivision ID: 2ab63d0f-a9c1-1156-ad11-9982f2fb9466
+2026-06-02 18:16:39,270 - INFO - Pricing for c27f263c-9084-b312-393a-12c3ddc3f5ab already fetched. Skipping.
+2026-06-02 18:16:39,270 - INFO - Pricing for c8db61f8-8ceb-db93-68c8-db5f6fa4661a already fetched. Skipping.
+2026-06-02 18:16:39,271 - INFO - Fetching pricing for project/subdivision ID: 79e11846-999d-7f56-8656-2742d4927bef
+2026-06-02 18:16:41,083 - INFO - Fetching pricing for project/subdivision ID: 2c090c22-bb2c-3243-5980-1f3fc411782b
+2026-06-02 18:16:42,955 - INFO - Pricing for 6cb85b33-5592-7a70-9c31-f54211762571 already fetched. Skipping.
+2026-06-02 18:16:42,956 - INFO - Pricing for c812ce07-032e-2d11-d62c-334cef37a3d3 already fetched. Skipping.
+2026-06-02 18:16:42,956 - INFO - Pricing for c3b15594-5010-ca48-e313-7cfa00be9d54 already fetched. Skipping.
+2026-06-02 18:16:42,956 - INFO - Pricing for cc706bcb-eb12-49eb-b162-84221693e00b already fetched. Skipping.
+2026-06-02 18:16:42,956 - INFO - Pricing for de03e79d-23d7-9e39-389e-ea81d5ee6a9e already fetched. Skipping.
+2026-06-02 18:16:42,957 - INFO - Pricing for 9a0dfc53-05d9-bdec-8801-dfcb8386fd14 already fetched. Skipping.
+2026-06-02 18:16:42,957 - INFO - Pricing for cc0027e7-88b5-249d-337c-a642c343bf0f already fetched. Skipping.
+2026-06-02 18:16:42,957 - INFO - Pricing for 5f019374-797b-22a8-f70a-c42e4211f10d already fetched. Skipping.
+2026-06-02 18:16:42,957 - INFO - Pricing for 1d5463a4-32e3-b855-cd4c-26864d7d0999 already fetched. Skipping.
+2026-06-02 18:16:42,957 - INFO - Fetching pricing for project/subdivision ID: 9612b24c-68ab-bcca-333f-f1025c89d217
+2026-06-02 18:16:44,717 - INFO - Pricing for 9d6c4339-184c-8d01-9021-f9877b6c98a0 already fetched. Skipping.
+2026-06-02 18:16:44,717 - INFO - Pricing for 78207126-e405-258a-10b4-c3920bd1f7b0 already fetched. Skipping.
+2026-06-02 18:16:44,717 - INFO - Pricing for 3202b753-059d-8ba7-7513-3dd418f64574 already fetched. Skipping.
+2026-06-02 18:16:44,717 - INFO - Pricing for 30808c15-ddc2-de67-f504-6cfee8e9e7cf already fetched. Skipping.
+2026-06-02 18:16:44,718 - INFO - Pricing for 0f43de0d-0921-2853-0550-f59fb35d3ff3 already fetched. Skipping.
+2026-06-02 18:16:44,718 - INFO - Fetching pricing for project/subdivision ID: c606948d-f0e9-81cd-e1ce-0378bcaef2fe
+2026-06-02 18:16:46,443 - INFO - Pricing for 44464a22-247b-b941-468a-cf48ba677827 already fetched. Skipping.
+2026-06-02 18:16:46,444 - INFO - Fetching pricing for project/subdivision ID: bfc754f9-ac13-b325-33a3-1796b0b8b88b
+2026-06-02 18:16:48,190 - INFO - Pricing for f2500d09-eacc-d3ee-b61b-be93b3848986 already fetched. Skipping.
+2026-06-02 18:16:48,190 - INFO - Fetching pricing for project/subdivision ID: f159b4f7-1315-b490-8c06-79fa4a3e1f5f
+2026-06-02 18:16:49,945 - INFO - Fetching pricing for project/subdivision ID: f08e2aa0-57bb-4c28-38da-446fd987bf26
+2026-06-02 18:16:51,659 - INFO - Pricing for 7650a01a-dd7c-4292-acf8-6451c8316581 already fetched. Skipping.
+2026-06-02 18:16:51,659 - INFO - Pricing for 814876a9-40ba-549b-cc1d-58b71aead1c4 already fetched. Skipping.
+2026-06-02 18:16:51,659 - INFO - Pricing for f9741ca5-ff91-199f-dc96-597b7fbc4ed6 already fetched. Skipping.
+2026-06-02 18:16:51,659 - INFO - Pipeline Execution Completed.
