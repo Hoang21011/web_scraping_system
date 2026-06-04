@@ -1,4 +1,7 @@
 # Databricks notebook source
+# MAGIC %pip install python-dotenv duckdb beautifulsoup4 curl-cffi
+
+# COMMAND ----------
 import duckdb
 import os
 from dotenv import load_dotenv

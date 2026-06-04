@@ -1,4 +1,7 @@
 # Databricks notebook source
+# MAGIC %pip install python-dotenv duckdb beautifulsoup4 curl-cffi
+
+# COMMAND ----------
 import time
 from logger_config import logger
 from data_manager import DataManager
