@@ -59,20 +59,20 @@ resources:
 
       tasks:
         - task_key: "Extract"
-          spark_python_task:
-            python_file: "./src/main.py"
+          notebook_task:
+            notebook_path: "./src/main.py"
           environment_key: "default"
         
         - task_key: "Transform"
           depends_on:
             - task_key: "Extract"
-          spark_python_task:
-            python_file: "./src/silver_etl.py"
+          notebook_task:
+            notebook_path: "./src/silver_etl.py"
           environment_key: "default"
         
         - task_key: "Aggregration"
           depends_on:
             - task_key: "Transform" 
-          spark_python_task: 
-            python_file: "./src/gold_aggregation.py"
+          notebook_task: 
+            notebook_path: "./src/gold_aggregation.py"
           environment_key: "default"
