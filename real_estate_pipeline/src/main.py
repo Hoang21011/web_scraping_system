@@ -154,6 +154,7 @@ def main():
     # Step 5
     fetch_project_pricing(data_manager, projects, subdivisions)
     
+    data_manager.close()
     logger.info("Pipeline Execution Completed.")
 
 if __name__ == "__main__":

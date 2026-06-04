@@ -41,7 +41,7 @@ def create_silver_layer():
     # 1. Bảng silver_properties
     # ---------------------------------------------------------
     print("Đang xử lý silver_properties...")
-    query_properties = """
+    query_properties = f"""
     CREATE OR REPLACE TABLE silver_properties AS
     SELECT 
         id::VARCHAR as id, project_id::VARCHAR as project_id, block_id::VARCHAR as block_id, sector_id::VARCHAR as sector_id, project_name, block_name, sector_name,
@@ -79,7 +79,7 @@ def create_silver_layer():
     # 2. Bảng silver_projects
     # ---------------------------------------------------------
     print("Đang xử lý silver_projects...")
-    query_projects = """
+    query_projects = f"""
     CREATE OR REPLACE TABLE silver_projects AS
     SELECT
         id::VARCHAR as id, code, name, slug, address, ward, district, district_code, province, province_code,
@@ -118,7 +118,7 @@ def create_silver_layer():
 
     # Tách bảng chiều tiện ích của dự án
     print("Đang xử lý silver_project_amenities...")
-    query_proj_amenities = """
+    query_proj_amenities = f"""
     CREATE OR REPLACE TABLE silver_project_amenities AS
     SELECT 
         id::VARCHAR as project_id,
@@ -135,7 +135,7 @@ def create_silver_layer():
     # 3. Bảng silver_subdivisions
     # ---------------------------------------------------------
     print("Đang xử lý silver_subdivisions...")
-    query_subdivisions = """
+    query_subdivisions = f"""
     CREATE OR REPLACE TABLE silver_subdivisions AS
     SELECT
         type, sector_id::VARCHAR as id, sector_name as name, project_id::VARCHAR as project_id,
@@ -165,7 +165,7 @@ def create_silver_layer():
     # 4. Bảng silver_project_prices (Chuẩn hóa Time Series)
     # ---------------------------------------------------------
     print("Đang xử lý silver_project_prices (Time Series)...")
-    query_prices = """
+    query_prices = f"""
     CREATE OR REPLACE TABLE silver_project_prices AS
     SELECT 
         project_id::VARCHAR as project_id,

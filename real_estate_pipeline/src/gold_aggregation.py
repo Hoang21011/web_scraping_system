@@ -41,7 +41,7 @@ def create_gold_layer():
     # Aggregate: Tính giá trung bình, min, max theo Quận/Phường
     print("Đang tổng hợp dữ liệu Gold: Giá trung bình theo khu vực...")
     
-    query = """
+    query = f"""
     CREATE OR REPLACE TABLE gold_price_by_ward AS
     SELECT 
         district, 
