@@ -3,17 +3,29 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+import argparse
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--silver-data-dir', default=os.getenv("SILVER_DATA_DIR"))
+parser.add_argument('--bronze-data-dir', default=os.getenv("BRONZE_DATA_DIR"))
+args, _ = parser.parse_known_args()
+
+SILVER_DATA_DIR = args.silver_data_dir
+if not SILVER_DATA_DIR:
+    raise ValueError("Thiếu cấu hình SILVER_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
+
+BRONZE_DATA_DIR = args.bronze_data_dir
+if not BRONZE_DATA_DIR:
+    raise ValueError("Thiếu cấu hình BRONZE_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
 
 def create_silver_layer():
-    silver_dir_name = os.getenv("SILVER_DATA_DIR")
-    if not silver_dir_name:
-        raise ValueError("Thiếu biến môi trường SILVER_DATA_DIR")
+    silver_dir_name = SILVER_DATA_DIR
     silver_dir = silver_dir_name if os.path.isabs(silver_dir_name) else os.path.join(os.path.dirname(__file__), "..", silver_dir_name)
     os.makedirs(silver_dir, exist_ok=True)
     
-    bronze_dir_name = os.getenv("BRONZE_DATA_DIR")
-    if not bronze_dir_name:
-        raise ValueError("Thiếu biến môi trường BRONZE_DATA_DIR")
+    bronze_dir_name = BRONZE_DATA_DIR
     bronze_dir = bronze_dir_name if os.path.isabs(bronze_dir_name) else os.path.join(os.path.dirname(__file__), "..", bronze_dir_name)
     
     # Sử dụng DuckDB in-memory engine thay vì file vật lý

@@ -5,12 +5,21 @@ from dotenv import load_dotenv
 
 # Load .env
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+import argparse
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--log-dir', default=os.getenv("LOG_DIR"))
+args, _ = parser.parse_known_args()
+
+LOG_DIR = args.log_dir
+if not LOG_DIR:
+    raise ValueError("Thiếu cấu hình LOG_DIR (từ tham số dòng lệnh hoặc .env)")
 
 def setup_logger():
     # Ensure logs directory exists
-    log_dir_name = os.getenv("LOG_DIR")
-    if not log_dir_name:
-        raise ValueError("Thiếu biến môi trường LOG_DIR")
+    log_dir_name = LOG_DIR
     log_dir = log_dir_name if os.path.isabs(log_dir_name) else os.path.join(os.path.dirname(__file__), "..", log_dir_name)
     os.makedirs(log_dir, exist_ok=True)
     

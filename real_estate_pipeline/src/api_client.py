@@ -4,6 +4,7 @@ from logger_config import logger
 from dotenv import load_dotenv
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -13,13 +14,20 @@ headers = {
     "Origin": "https://onehousing.vn",
 }
 
-PROJECT_INSIGHTS_API = os.getenv("PROJECT_INSIGHTS_API")
-if not PROJECT_INSIGHTS_API:
-    raise ValueError("Thiếu biến môi trường PROJECT_INSIGHTS_API")
+import argparse
 
-QUICK_FILTER_API = os.getenv("QUICK_FILTER_API")
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--project-insights-api', default=os.getenv("PROJECT_INSIGHTS_API"))
+parser.add_argument('--quick-filter-api', default=os.getenv("QUICK_FILTER_API"))
+args, _ = parser.parse_known_args()
+
+PROJECT_INSIGHTS_API = args.project_insights_api
+if not PROJECT_INSIGHTS_API:
+    raise ValueError("Thiếu cấu hình PROJECT_INSIGHTS_API (từ tham số dòng lệnh hoặc .env)")
+
+QUICK_FILTER_API = args.quick_filter_api
 if not QUICK_FILTER_API:
-    raise ValueError("Thiếu biến môi trường QUICK_FILTER_API")
+    raise ValueError("Thiếu cấu hình QUICK_FILTER_API (từ tham số dòng lệnh hoặc .env)")
 
 def fetch_quick_filter():
     """

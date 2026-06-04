@@ -3,15 +3,26 @@ import os
 from bs4 import BeautifulSoup
 from curl_cffi import requests
 from logger_config import logger
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+import argparse
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--html-scrape-url-template', default=os.getenv("HTML_SCRAPE_URL_TEMPLATE"))
+args, _ = parser.parse_known_args()
+
+HTML_SCRAPE_URL_TEMPLATE = args.html_scrape_url_template
+if not HTML_SCRAPE_URL_TEMPLATE:
+    raise ValueError("Thiếu cấu hình HTML_SCRAPE_URL_TEMPLATE (từ tham số dòng lệnh hoặc .env)")
 
 def fetch_html_page(page_number):
     """
     Fetch the HTML content for a specific page.
     """
-    url_template = os.getenv("HTML_SCRAPE_URL_TEMPLATE")
-    if not url_template:
-        raise ValueError("Thiếu biến môi trường HTML_SCRAPE_URL_TEMPLATE")
-    url = url_template.format(page_number)
+    url = HTML_SCRAPE_URL_TEMPLATE.format(page_number)
     try:
         response = requests.get(url, impersonate="chrome", timeout=15)
         if response.status_code == 200:

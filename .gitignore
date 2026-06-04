@@ -5,6 +5,5 @@ hybrid_method/data/real_estate.duckdb
 hybrid_method/data/silver/
 .gitignore
 pipeline.md
-databricks_upload_guide.md
 debug_history.md
-
+databricks_upload_guide.md

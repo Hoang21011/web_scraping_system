@@ -5,12 +5,23 @@ from dotenv import load_dotenv
 
 # Load .env relative to this file
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+import argparse
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--bronze-data-dir', default=os.getenv("BRONZE_DATA_DIR"))
+args, _ = parser.parse_known_args()
+
+BRONZE_DATA_DIR = args.bronze_data_dir
+if not BRONZE_DATA_DIR:
+    raise ValueError("Thiếu cấu hình BRONZE_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
 
 class DataManager:
     def __init__(self, data_dir=None):
         if data_dir is None:
-            data_dir = os.getenv("BRONZE_DATA_DIR", "/Volumes/main/default/real_estate_data/bronze")
-        self.data_dir = os.path.join(os.path.dirname(__file__), data_dir)
+            data_dir = BRONZE_DATA_DIR
+        self.data_dir = data_dir if os.path.isabs(data_dir) else os.path.join(os.path.dirname(__file__), "..", data_dir)
         os.makedirs(self.data_dir, exist_ok=True)
         
         self.files = {
