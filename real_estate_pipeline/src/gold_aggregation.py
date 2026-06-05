@@ -144,6 +144,20 @@ def create_gold_layer():
     """)
     conn.execute(f"COPY gold_project_quality TO '{os.path.join(gold_dir, 'gold_project_quality.parquet')}' (FORMAT PARQUET);")
 
+    print("Đang tổng hợp dữ liệu: gold_subdivision_area_boxplot...")
+    conn.execute(f"""
+    CREATE OR REPLACE TABLE gold_subdivision_area_boxplot AS
+    SELECT 
+        sector_name,
+        MIN(min_area) as min_carpet_area,
+        MAX(max_area) as max_carpet_area,
+        MEDIAN((min_area + max_area)/2) as median_carpet_area
+    FROM read_parquet('{os.path.join(silver_dir, "properties.parquet")}')
+    WHERE sector_name IS NOT NULL AND min_area IS NOT NULL AND max_area IS NOT NULL
+    GROUP BY sector_name
+    """)
+    conn.execute(f"COPY gold_subdivision_area_boxplot TO '{os.path.join(gold_dir, 'gold_subdivision_area_boxplot.parquet')}' (FORMAT PARQUET);")
+
     print("Đang tổng hợp dữ liệu: gold_subdivision_metrics...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_subdivision_metrics AS
