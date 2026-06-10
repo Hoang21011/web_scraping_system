@@ -87,31 +87,63 @@ def create_silver_layer():
     # 5. Handling Missing Values: Loại bỏ các hàng thiếu giá hoặc diện tích
     df_properties = df_properties.dropna(subset=['min_selling_price', 'min_area', 'views'])
     
-    # 1. Text Standardization: Xóa khoảng trắng và viết hoa chữ cái đầu
-    df_properties['views'] = df_properties['views'].str.strip().str.title()
+    # 1. Text Standardization: Xóa khoảng trắng và viết hoa chữ cái đầu (chỉ với project_name)
     df_properties['project_name'] = df_properties['project_name'].str.strip().str.title()
     
     # 2. Data Cleaning (Sửa lỗi chính tả trên toàn bộ DataFrame)
     df_properties = df_properties.replace('High-quanlity', 'High-quality', regex=True)
     df_properties = df_properties.replace('High-Quanlity', 'High-Quality', regex=True)
     
-    # 3. Categorical Binning/Grouping: Gộp các loại view
-    def categorize_view(v):
-        v_str = str(v)
-        # Ưu tiên các view giá trị cao trước
-        if 'Hồ' in v_str: return 'Hồ'
-        if 'Công Viên' in v_str: return 'Công Viên'
-        if 'Thành Phố' in v_str: return 'Thành Phố'
-        if 'Trường Học' in v_str: return 'Trường Học'
-        if 'Nội Khu' in v_str: return 'Nội Khu'
-        return v_str
+    # 3. Categorical Binning & View Cleaning
+    import re
+    import unicodedata
+    def clean_and_categorize_view(v):
+        if pd.isna(v) or str(v).strip() == '':
+            return 'Không Xác Định'
+            
+        # Ép về chữ thường, chuẩn hóa Unicode (NFC) và xóa khoảng trắng trước khi thay thế
+        v = unicodedata.normalize('NFC', str(v))
+        v = v.lower().strip()
         
-    df_properties['views'] = df_properties['views'].apply(categorize_view)
-    
-    # 4. Frequency Filtering: Loại bỏ các danh mục view có dưới 5 căn
-    view_counts = df_properties['views'].value_counts()
-    valid_views = view_counts[view_counts >= 5].index
-    df_properties = df_properties[df_properties['views'].isin(valid_views)]
+        # Sửa lỗi chữ sai dấu cứng
+        v = v.replace('nôi khu', 'nội khu')
+        v = v.replace('nộii khu', 'nội khu')
+        
+        # Với phần ngoại khu, lấy nội dung trong ngoặc, bỏ chữ "ngoại khu"
+        # VD: "ngoại khu (hồ bơi)" -> "hồ bơi"
+        v = re.sub(r'ngoại khu\s*\((.*?)\)', r'\1', v)
+        
+        # Gộp các giá trị lặp Nghĩa trang / Khu mộ
+        if 'nghĩa trang' in v or 'khu mộ' in v:
+            return 'Nghĩa Trang / Khu Mộ'
+            
+        # Kiểm tra chuỗi vô nghĩa, đơn lẻ (VD: "k", "k, k", ký tự rác)
+        # Bỏ qua các ký tự không phải chữ số và xem độ dài
+        v_clean = re.sub(r'[^\w]', '', v)
+        if len(v_clean) <= 1 or v_clean.strip('k') == '':
+            return 'Khác'
+            
+        # Gom nhóm danh mục (Categorical Binning) - Ưu tiên các view giá trị cao
+        if 'hồ' in v: return 'Hồ'
+        if 'công viên' in v: return 'Công Viên'
+        if 'thành phố' in v: return 'Thành Phố'
+        if 'trường học' in v: return 'Trường Học'
+        if 'nội khu' in v: return 'Nội Khu'
+        
+        # Loại bỏ các giá trị bị lặp do nối chuỗi (VD: "đất trống, đất trống" -> "đất trống")
+        items = [x.strip() for x in v.split(',')]
+        seen = set()
+        unique_items = []
+        for item in items:
+            if item and item not in seen:
+                seen.add(item)
+                unique_items.append(item)
+        v = ', '.join(unique_items)
+        
+        # Cuối cùng mới .title() lại để tránh lỗi ký tự đặc biệt như I/I
+        return v.title()
+        
+    df_properties['views'] = df_properties['views'].apply(clean_and_categorize_view)
     
     # Đưa lại vào DuckDB và xuất ra Parquet
     conn.register('df_properties_cleaned', df_properties)
