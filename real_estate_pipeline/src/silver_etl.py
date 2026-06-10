@@ -72,8 +72,49 @@ def create_silver_layer():
         number_of_bathrooms[1] as number_of_bathrooms
     FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}');
     """
-    conn.execute(query_properties)
-    conn.execute(f"COPY silver_properties TO '{os.path.join(silver_dir, 'properties.parquet')}' (FORMAT PARQUET);")
+    
+    # Chuyển dữ liệu sang Pandas DataFrame để thực hiện Preprocessing chuyên sâu
+    import pandas as pd
+    df_properties = conn.execute(query_properties).df()
+    
+    # ---------------------------------------------------------
+    # DATA PREPROCESSING & CLEANING (PANDAS)
+    # ---------------------------------------------------------
+    print("Đang thực hiện Data Preprocessing cho properties...")
+    
+    # 5. Handling Missing Values: Loại bỏ các hàng thiếu giá hoặc diện tích
+    df_properties = df_properties.dropna(subset=['min_selling_price', 'min_area', 'views'])
+    
+    # 1. Text Standardization: Xóa khoảng trắng và viết hoa chữ cái đầu
+    df_properties['views'] = df_properties['views'].str.strip().str.title()
+    df_properties['project_name'] = df_properties['project_name'].str.strip().str.title()
+    
+    # 2. Data Cleaning (Sửa lỗi chính tả trên toàn bộ DataFrame)
+    df_properties = df_properties.replace('High-quanlity', 'High-quality', regex=True)
+    df_properties = df_properties.replace('High-Quanlity', 'High-Quality', regex=True)
+    
+    # 3. Categorical Binning/Grouping: Gộp các loại view
+    def categorize_view(v):
+        v_str = str(v)
+        # Ưu tiên các view giá trị cao trước
+        if 'Hồ' in v_str: return 'Hồ'
+        if 'Công Viên' in v_str: return 'Công Viên'
+        if 'Thành Phố' in v_str: return 'Thành Phố'
+        if 'Trường Học' in v_str: return 'Trường Học'
+        if 'Nội Khu' in v_str: return 'Nội Khu'
+        return v_str
+        
+    df_properties['views'] = df_properties['views'].apply(categorize_view)
+    
+    # 4. Frequency Filtering: Loại bỏ các danh mục view có dưới 5 căn
+    view_counts = df_properties['views'].value_counts()
+    valid_views = view_counts[view_counts >= 5].index
+    df_properties = df_properties[df_properties['views'].isin(valid_views)]
+    
+    # Đưa lại vào DuckDB và xuất ra Parquet
+    conn.register('df_properties_cleaned', df_properties)
+    conn.execute(f"COPY df_properties_cleaned TO '{os.path.join(silver_dir, 'properties.parquet')}' (FORMAT PARQUET);")
+
     
     # ---------------------------------------------------------
     # 2. Bảng silver_projects
