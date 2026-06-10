@@ -1,3 +1,7 @@
+# Databricks notebook source
+# MAGIC %pip install python-dotenv duckdb beautifulsoup4 curl-cffi
+
+# COMMAND ----------
 import time
 from logger_config import logger
 from data_manager import DataManager
@@ -150,6 +154,7 @@ def main():
     # Step 5
     fetch_project_pricing(data_manager, projects, subdivisions)
     
+    data_manager.close()
     logger.info("Pipeline Execution Completed.")
 
 if __name__ == "__main__":

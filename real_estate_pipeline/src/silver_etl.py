@@ -1,19 +1,35 @@
+# Databricks notebook source
+# MAGIC %pip install python-dotenv duckdb beautifulsoup4 curl-cffi
+
+# COMMAND ----------
 import duckdb
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+import argparse
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--silver-data-dir', default=os.getenv("SILVER_DATA_DIR"))
+parser.add_argument('--bronze-data-dir', default=os.getenv("BRONZE_DATA_DIR"))
+args, _ = parser.parse_known_args()
+
+SILVER_DATA_DIR = args.silver_data_dir
+if not SILVER_DATA_DIR:
+    raise ValueError("Thiếu cấu hình SILVER_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
+
+BRONZE_DATA_DIR = args.bronze_data_dir
+if not BRONZE_DATA_DIR:
+    raise ValueError("Thiếu cấu hình BRONZE_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
 
 def create_silver_layer():
-    silver_dir_name = os.getenv("SILVER_DATA_DIR")
-    if not silver_dir_name:
-        raise ValueError("Thiếu biến môi trường SILVER_DATA_DIR")
+    silver_dir_name = SILVER_DATA_DIR
     silver_dir = silver_dir_name if os.path.isabs(silver_dir_name) else os.path.join(os.path.dirname(__file__), "..", silver_dir_name)
     os.makedirs(silver_dir, exist_ok=True)
     
-    bronze_dir_name = os.getenv("BRONZE_DATA_DIR")
-    if not bronze_dir_name:
-        raise ValueError("Thiếu biến môi trường BRONZE_DATA_DIR")
+    bronze_dir_name = BRONZE_DATA_DIR
     bronze_dir = bronze_dir_name if os.path.isabs(bronze_dir_name) else os.path.join(os.path.dirname(__file__), "..", bronze_dir_name)
     
     # Sử dụng DuckDB in-memory engine thay vì file vật lý
@@ -25,7 +41,7 @@ def create_silver_layer():
     # 1. Bảng silver_properties
     # ---------------------------------------------------------
     print("Đang xử lý silver_properties...")
-    query_properties = """
+    query_properties = f"""
     CREATE OR REPLACE TABLE silver_properties AS
     SELECT 
         id::VARCHAR as id, project_id::VARCHAR as project_id, block_id::VARCHAR as block_id, sector_id::VARCHAR as sector_id, project_name, block_name, sector_name,
@@ -54,16 +70,91 @@ def create_silver_layer():
         sell_for_cut_losses,
         to_timestamp(last_modified_date::BIGINT / 1000) as last_modified_date,
         number_of_bathrooms[1] as number_of_bathrooms
-    FROM read_json_auto('{os.path.join(bronze_dir, "properties.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}');
     """
+    
     conn.execute(query_properties)
-    conn.execute(f"COPY silver_properties TO '{os.path.join(silver_dir, 'properties.parquet')}' (FORMAT PARQUET);")
+    
+    # Chuyển dữ liệu sang Pandas DataFrame để thực hiện Preprocessing chuyên sâu
+    import pandas as pd
+    df_properties = conn.execute("SELECT * FROM silver_properties").df()
+    
+    # ---------------------------------------------------------
+    # DATA PREPROCESSING & CLEANING (PANDAS)
+    # ---------------------------------------------------------
+    print("Đang thực hiện Data Preprocessing cho properties...")
+    
+    # 5. Handling Missing Values: Loại bỏ các hàng thiếu giá hoặc diện tích
+    df_properties = df_properties.dropna(subset=['min_selling_price', 'min_area', 'views'])
+    
+    # 1. Text Standardization: Xóa khoảng trắng và viết hoa chữ cái đầu (chỉ với project_name)
+    df_properties['project_name'] = df_properties['project_name'].str.strip().str.title()
+    
+    # 2. Data Cleaning (Sửa lỗi chính tả trên toàn bộ DataFrame)
+    df_properties = df_properties.replace('High-quanlity', 'High-quality', regex=True)
+    df_properties = df_properties.replace('High-Quanlity', 'High-Quality', regex=True)
+    
+    # 3. Categorical Binning & View Cleaning
+    import re
+    import unicodedata
+    def clean_and_categorize_view(v):
+        if pd.isna(v) or str(v).strip() == '':
+            return 'Không Xác Định'
+            
+        # Ép về chữ thường, chuẩn hóa Unicode (NFC) và xóa khoảng trắng trước khi thay thế
+        v = unicodedata.normalize('NFC', str(v))
+        v = v.lower().strip()
+        
+        # Sửa lỗi chữ sai dấu cứng
+        v = v.replace('nôi khu', 'nội khu')
+        v = v.replace('nộii khu', 'nội khu')
+        
+        # Với phần ngoại khu, lấy nội dung trong ngoặc, bỏ chữ "ngoại khu"
+        # VD: "ngoại khu (hồ bơi)" -> "hồ bơi"
+        v = re.sub(r'ngoại khu\s*\((.*?)\)', r'\1', v)
+        
+        # Gộp các giá trị lặp Nghĩa trang / Khu mộ
+        if 'nghĩa trang' in v or 'khu mộ' in v:
+            return 'Nghĩa Trang / Khu Mộ'
+            
+        # Kiểm tra chuỗi vô nghĩa, đơn lẻ (VD: "k", "k, k", ký tự rác)
+        # Bỏ qua các ký tự không phải chữ số và xem độ dài
+        v_clean = re.sub(r'[^\w]', '', v)
+        if len(v_clean) <= 1 or v_clean.strip('k') == '':
+            return 'Khác'
+            
+        # Gom nhóm danh mục (Categorical Binning) - Ưu tiên các view giá trị cao
+        if 'hồ' in v: return 'Hồ'
+        if 'công viên' in v: return 'Công Viên'
+        if 'thành phố' in v: return 'Thành Phố'
+        if 'trường học' in v: return 'Trường Học'
+        if 'nội khu' in v: return 'Nội Khu'
+        
+        # Loại bỏ các giá trị bị lặp do nối chuỗi (VD: "đất trống, đất trống" -> "đất trống")
+        items = [x.strip() for x in v.split(',')]
+        seen = set()
+        unique_items = []
+        for item in items:
+            if item and item not in seen:
+                seen.add(item)
+                unique_items.append(item)
+        v = ', '.join(unique_items)
+        
+        # Cuối cùng mới .title() lại để tránh lỗi ký tự đặc biệt như I/I
+        return v.title()
+        
+    df_properties['views'] = df_properties['views'].apply(clean_and_categorize_view)
+    
+    # Đưa lại vào DuckDB và xuất ra Parquet
+    conn.register('df_properties_cleaned', df_properties)
+    conn.execute(f"COPY df_properties_cleaned TO '{os.path.join(silver_dir, 'properties.parquet')}' (FORMAT PARQUET);")
+
     
     # ---------------------------------------------------------
     # 2. Bảng silver_projects
     # ---------------------------------------------------------
     print("Đang xử lý silver_projects...")
-    query_projects = """
+    query_projects = f"""
     CREATE OR REPLACE TABLE silver_projects AS
     SELECT
         id::VARCHAR as id, code, name, slug, address, ward, district, district_code, province, province_code,
@@ -95,21 +186,21 @@ def create_silver_layer():
         sort_index::INT as sort_index,
         total_area::DOUBLE as total_area,
         insight_type, selling_property_count::INT as selling_property_count, has_price
-    FROM read_json_auto('{os.path.join(bronze_dir, "projects.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}');
     """
     conn.execute(query_projects)
     conn.execute(f"COPY silver_projects TO '{os.path.join(silver_dir, 'projects.parquet')}' (FORMAT PARQUET);")
 
     # Tách bảng chiều tiện ích của dự án
     print("Đang xử lý silver_project_amenities...")
-    query_proj_amenities = """
+    query_proj_amenities = f"""
     CREATE OR REPLACE TABLE silver_project_amenities AS
     SELECT 
         id::VARCHAR as project_id,
         q.id::BIGINT as amenity_id,
         q.name as amenity_name,
         q.code as amenity_code
-    FROM read_json_auto('{os.path.join(bronze_dir, "projects.jsonl")}'), UNNEST(quality_indexes) AS t(q)
+    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}'), UNNEST(quality_indexes) AS t(q)
     WHERE q.parent_type = 'PROJECT';
     """
     conn.execute(query_proj_amenities)
@@ -119,7 +210,7 @@ def create_silver_layer():
     # 3. Bảng silver_subdivisions
     # ---------------------------------------------------------
     print("Đang xử lý silver_subdivisions...")
-    query_subdivisions = """
+    query_subdivisions = f"""
     CREATE OR REPLACE TABLE silver_subdivisions AS
     SELECT
         type, sector_id::VARCHAR as id, sector_name as name, project_id::VARCHAR as project_id,
@@ -140,7 +231,7 @@ def create_silver_layer():
         min_prop_per_floor::INT as min_prop_per_floor,
         max_prop_per_floor::INT as max_prop_per_floor,
         number_living_floor::DOUBLE as number_living_floor
-    FROM read_json_auto('{os.path.join(bronze_dir, "subdivisions.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "subdivisions*.jsonl")}');
     """
     conn.execute(query_subdivisions)
     conn.execute(f"COPY silver_subdivisions TO '{os.path.join(silver_dir, 'subdivisions.parquet')}' (FORMAT PARQUET);")
@@ -149,7 +240,7 @@ def create_silver_layer():
     # 4. Bảng silver_project_prices (Chuẩn hóa Time Series)
     # ---------------------------------------------------------
     print("Đang xử lý silver_project_prices (Time Series)...")
-    query_prices = """
+    query_prices = f"""
     CREATE OR REPLACE TABLE silver_project_prices AS
     SELECT 
         project_id::VARCHAR as project_id,
@@ -157,7 +248,7 @@ def create_silver_layer():
         pc.year::INT as year,
         pc.price_average::DOUBLE as price_average,
         pc.percent::DOUBLE as percent_change
-    FROM read_json_auto('{os.path.join(bronze_dir, "project_prices.jsonl")}'), UNNEST(price_history.value) AS t(pc);
+    FROM read_json_auto('{os.path.join(bronze_dir, "project_prices*.jsonl")}'), UNNEST(price_history.value) AS t(pc);
     """
     conn.execute(query_prices)
     conn.execute(f"COPY silver_project_prices TO '{os.path.join(silver_dir, 'project_prices.parquet')}' (FORMAT PARQUET);")
