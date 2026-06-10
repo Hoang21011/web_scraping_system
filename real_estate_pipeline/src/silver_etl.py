@@ -73,9 +73,11 @@ def create_silver_layer():
     FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}');
     """
     
+    conn.execute(query_properties)
+    
     # Chuyển dữ liệu sang Pandas DataFrame để thực hiện Preprocessing chuyên sâu
     import pandas as pd
-    df_properties = conn.execute(query_properties).df()
+    df_properties = conn.execute("SELECT * FROM silver_properties").df()
     
     # ---------------------------------------------------------
     # DATA PREPROCESSING & CLEANING (PANDAS)
