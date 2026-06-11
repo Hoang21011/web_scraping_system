@@ -68,7 +68,7 @@ def create_silver_layer():
         floor_number,
         array_to_string(positions, ', ') as positions,
         sell_for_cut_losses,
-        to_timestamp(last_modified_date::BIGINT / 1000) as last_modified_date,
+        strftime(to_timestamp(last_modified_date::BIGINT / 1000), '%d-%m-%Y') as last_modified_date,
         number_of_bathrooms[1] as number_of_bathrooms
     FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}');
     """
