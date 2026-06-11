@@ -197,10 +197,12 @@ def create_silver_layer():
     CREATE OR REPLACE TABLE silver_project_amenities AS
     SELECT 
         id::VARCHAR as project_id,
-        q.id::BIGINT as amenity_id,
-        q.name as amenity_name,
+        COALESCE(a.id::VARCHAR, q.id::VARCHAR) as amenity_id,
+        COALESCE(a.name, q.name) as amenity_name,
         q.code as amenity_code
-    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}'), UNNEST(quality_indexes) AS t(q)
+    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}'), 
+    UNNEST(quality_indexes) AS t(q)
+    LEFT JOIN UNNEST(q.attributes) AS t2(a) ON true
     WHERE q.parent_type = 'PROJECT';
     """
     conn.execute(query_proj_amenities)
