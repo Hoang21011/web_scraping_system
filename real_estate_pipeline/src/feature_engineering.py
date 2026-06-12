@@ -162,7 +162,11 @@ def run_feature_engineering():
     
     sample_df = df.head(20)[['id', 'project_name', 'bedroom_count', 'rank', 'window_direction', 'area_discount_ratio', 'block_price_volatility', 'amenity_score', 'core_amenity_score']]
     
-    md_path = os.path.join(os.path.dirname(__file__), "..", "..", "feature_engineering_output.md")
+    try:
+        current_dir = os.path.dirname(__file__)
+    except NameError:
+        current_dir = os.getcwd()
+    md_path = os.path.join(current_dir, "..", "..", "feature_engineering_output.md")
     with open(md_path, 'w', encoding='utf-8') as f:
         f.write('# Feature Engineering Final Output (Sample)\n\n')
         f.write('Đây là 20 dòng mẫu từ bảng `gold_features.parquet` chứa các features đã được tổng hợp và thiết kế.\n\n')
