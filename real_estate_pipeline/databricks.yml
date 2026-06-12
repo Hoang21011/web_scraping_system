@@ -69,6 +69,13 @@ resources:
           notebook_task:
             notebook_path: "./src/silver_etl.py"
           environment_key: "default"
+
+        - task_key: "FeatureEngineering"
+          depends_on:
+            - task_key: "Transform"
+          notebook_task:
+            notebook_path: "./src/feature_engineering.py"
+          environment_key: "default"
         
         - task_key: "Aggregration"
           depends_on:

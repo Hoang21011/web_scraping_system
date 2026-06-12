@@ -6,12 +6,30 @@ import duckdb
 import pandas as pd
 import numpy as np
 import os
+from dotenv import load_dotenv
+import argparse
+
+load_dotenv()
+load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--silver-data-dir', default=os.getenv("SILVER_DATA_DIR"))
+parser.add_argument('--gold-data-dir', default=os.getenv("GOLD_DATA_DIR"))
+args, _ = parser.parse_known_args()
+
+SILVER_DATA_DIR = args.silver_data_dir
+if not SILVER_DATA_DIR:
+    raise ValueError("Thiếu cấu hình SILVER_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
+
+GOLD_DATA_DIR = args.gold_data_dir
+if not GOLD_DATA_DIR:
+    raise ValueError("Thiếu cấu hình GOLD_DATA_DIR (từ tham số dòng lệnh hoặc .env)")
 
 def run_feature_engineering():
     print("Bắt đầu Feature Engineering...")
     
-    silver_dir = os.path.join(os.path.dirname(__file__), "..", "..", "hybrid_method", "data", "silver")
-    gold_dir = os.path.join(os.path.dirname(__file__), "..", "..", "hybrid_method", "data", "gold")
+    silver_dir = SILVER_DATA_DIR
+    gold_dir = GOLD_DATA_DIR
     os.makedirs(gold_dir, exist_ok=True)
     
     conn = duckdb.connect(':memory:')
