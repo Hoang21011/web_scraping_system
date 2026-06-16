@@ -70,8 +70,14 @@ def run_feature_engineering():
         COALESCE(a.core_amenity_score, 0) as core_amenity_score,
         pp.* EXCLUDE (project_id)
     FROM read_parquet('{os.path.join(silver_dir, "properties.parquet")}') p
-    LEFT JOIN read_parquet('{os.path.join(silver_dir, "projects.parquet")}') proj ON p.project_id = proj.id
-    LEFT JOIN read_parquet('{os.path.join(silver_dir, "subdivisions.parquet")}') sub ON p.sector_id = sub.id
+    LEFT JOIN (
+        SELECT * FROM read_parquet('{os.path.join(silver_dir, "projects.parquet")}') 
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY id) = 1
+    ) proj ON p.project_id = proj.id
+    LEFT JOIN (
+        SELECT * FROM read_parquet('{os.path.join(silver_dir, "subdivisions.parquet")}') 
+        QUALIFY ROW_NUMBER() OVER (PARTITION BY id) = 1
+    ) sub ON p.sector_id = sub.id
     LEFT JOIN proj_amenities_agg a ON p.project_id = a.project_id
     LEFT JOIN pivoted_prices pp ON p.project_id = pp.project_id
     """
@@ -128,7 +134,7 @@ def run_feature_engineering():
     df['area_discount_ratio'] = df['max_area'] * df['is_corner']
     
     df['floor_num'] = df['floor_number'].astype(str).str.extract(r'(\d+)').astype(float)
-    df['is_special_low_floor'] = ((df['floor_num'] <= 10) & (df['min_unit_price'] > 150000000)).astype(int)
+    df['is_special_low_floor'] = ((df['floor_num'] <= 10) & (df['min_unit_price'] > 150000000)).fillna(False).astype(int)
     
     df['density_vs_location'] = df['cstn_dens'] * df['center_rd_dist']
     
