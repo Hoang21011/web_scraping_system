@@ -1,0 +1,169 @@
+name: "web-scraping-system"
+version: "3.9"
+
+services:
+  datalake:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    environment:
+      - ENVIRONMENT=dev
+      - PORT=8000
+      - MINIO=http://minio:9000
+      - TRINO=http://trino:8080
+      - AIRFLOW=http://airflow:8081
+      - KAFKA=http://kafka:9092
+      - POSTGRES=http://localhost:5432
+      - ZOOKEEPER=http://localhost:2181
+      - SPARK=http://spark-master:8080
+    env_file:
+      - .env
+    depends_on:
+      minio:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      trino:
+        condition: service_healthy
+      airflow:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      zookeeper:
+        condition: service_healthy
+      spark-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c",
+            "import urllib.request; urllib.request.urlopen('http://localhost:8000')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    networks:
+      - internal
+
+  minio:
+    image: minio/minio:latest
+    command: server /storage
+    volumes: 
+      - datalake-data:/storage
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - internal
+
+  postgres:
+    image: postgres:17-alpine
+    volumes: 
+      - postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - internal
+
+  trino:
+    image: trinodb/trino:latest
+    volumes:
+      - ./trino/catalog:/etc/trino/catalog
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/info"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - minio
+      - postgres
+    networks:
+      - internal
+
+  airflow:
+    image: apache/airflow:latest
+    # Tạo volumes để các dags không biến mất khi tắt container
+    volumes:
+     - ./dags:/opt/airflow/dags
+     - ./logs:/opt/airflow/logs
+     - ./plugins:/opt/airflow/plugins
+    user: "${AIRFLOW_UID:-50000}:0" # Fix lỗi permission
+    environment:
+      - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks: 
+      - internal
+
+  kafka:
+    image: apache/kafka:latest
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 9092 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - internal  
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - internal
+
+  spark-master:
+    image: apache/spark:latest
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+    healthcheck: 
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - internal
+
+  spark-worker:
+    image: apache/spark:latest
+    command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
+    depends_on:
+      - spark-master
+    networks:
+      - internal
+
+volumes:
+  datalake-data:
+  postgres-data:
+
+networks:
+  internal:
+    driver: bridge
