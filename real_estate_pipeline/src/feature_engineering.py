@@ -80,6 +80,7 @@ def run_feature_engineering():
     ) sub ON p.sector_id = sub.id
     LEFT JOIN proj_amenities_agg a ON p.project_id = a.project_id
     LEFT JOIN pivoted_prices pp ON p.project_id = pp.project_id
+    ORDER BY p.last_modified_date DESC
     """
     
     print("Executing SQL JOIN...")

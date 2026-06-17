@@ -250,7 +250,8 @@ def create_silver_layer():
         pc.year::INT as year,
         pc.price_average::DOUBLE as price_average,
         pc.percent::DOUBLE as percent_change
-    FROM read_json_auto('{os.path.join(bronze_dir, "project_prices*.jsonl")}'), UNNEST(price_history.value) AS t(pc);
+    FROM read_json_auto('{os.path.join(bronze_dir, "project_prices*.jsonl")}'), UNNEST(price_history.value) AS t(pc)
+    ORDER BY project_id, year ASC, month ASC;
     """
     conn.execute(query_prices)
     conn.execute(f"COPY silver_project_prices TO '{os.path.join(silver_dir, 'project_prices.parquet')}' (FORMAT PARQUET);")
