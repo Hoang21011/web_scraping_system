@@ -30,9 +30,19 @@ def scrape_properties(data_manager):
             logger.info(f"No properties found on page {page}. End of pages.")
             break
             
-        saved_count = data_manager.append_data("properties", properties)
+        new_properties = []
+        for prop in properties:
+            if not data_manager.is_property_visited(prop['id']):
+                new_properties.append(prop)
+                data_manager.mark_property_visited(prop['id'])
+                
+        if not new_properties:
+            logger.info(f"Page {page} contains entirely old properties. Stopping crawler to prevent data duplication.")
+            break
+            
+        saved_count = data_manager.append_data("properties", new_properties)
         total_properties_saved += saved_count
-        logger.info(f"Page {page}: Saved {saved_count} properties.")
+        logger.info(f"Page {page}: Saved {saved_count} new properties.")
         
         page += 1
         time.sleep(1.5) # Anti-ban sleep

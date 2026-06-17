@@ -70,7 +70,8 @@ def create_silver_layer():
         sell_for_cut_losses,
         strftime(to_timestamp(last_modified_date::BIGINT / 1000), '%d-%m-%Y') as last_modified_date,
         number_of_bathrooms[1] as number_of_bathrooms
-    FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "properties*.jsonl")}')
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY id ORDER BY last_modified_date DESC) = 1;
     """
     
     conn.execute(query_properties)
@@ -186,7 +187,8 @@ def create_silver_layer():
         sort_index::INT as sort_index,
         total_area::DOUBLE as total_area,
         insight_type, selling_property_count::INT as selling_property_count, has_price
-    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}')
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY id) = 1;
     """
     conn.execute(query_projects)
     conn.execute(f"COPY silver_projects TO '{os.path.join(silver_dir, 'projects.parquet')}' (FORMAT PARQUET);")
@@ -203,7 +205,8 @@ def create_silver_layer():
     FROM read_json_auto('{os.path.join(bronze_dir, "projects*.jsonl")}'), 
     UNNEST(quality_indexes) AS t(q)
     LEFT JOIN UNNEST(q.attributes) AS t2(a) ON true
-    WHERE q.parent_type = 'PROJECT';
+    WHERE q.parent_type = 'PROJECT'
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY project_id, amenity_code) = 1;
     """
     conn.execute(query_proj_amenities)
     conn.execute(f"COPY silver_project_amenities TO '{os.path.join(silver_dir, 'project_amenities.parquet')}' (FORMAT PARQUET);")
@@ -233,7 +236,8 @@ def create_silver_layer():
         min_prop_per_floor::INT as min_prop_per_floor,
         max_prop_per_floor::INT as max_prop_per_floor,
         number_living_floor::DOUBLE as number_living_floor
-    FROM read_json_auto('{os.path.join(bronze_dir, "subdivisions*.jsonl")}');
+    FROM read_json_auto('{os.path.join(bronze_dir, "subdivisions*.jsonl")}')
+    QUALIFY ROW_NUMBER() OVER (PARTITION BY sector_id) = 1;
     """
     conn.execute(query_subdivisions)
     conn.execute(f"COPY silver_subdivisions TO '{os.path.join(silver_dir, 'subdivisions.parquet')}' (FORMAT PARQUET);")
