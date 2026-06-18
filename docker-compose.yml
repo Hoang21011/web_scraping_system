@@ -51,7 +51,10 @@ services:
 
   minio:
     image: minio/minio:latest
-    command: server /storage
+    command: server /storage --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
     volumes: 
       - datalake-data:/storage
     environment:
