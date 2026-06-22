@@ -7,3 +7,5 @@ hybrid_method/data/silver/
 pipeline.md
 debug_history.md
 databricks_upload_guide.md
+.DS_Store               # File này được macOS dùng để lưu trữ các tuỳ chỉnh hiển thị (preferences) riêng của thư mục chứa nó
+**/.DS_Store
