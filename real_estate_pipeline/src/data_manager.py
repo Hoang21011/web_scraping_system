@@ -36,6 +36,7 @@ class DataManager:
         }
         
         self.visited_projects = self._load_visited_projects()
+        self.visited_properties = self._load_visited_properties()
 
     def _load_visited_projects(self):
         visited = set()
@@ -56,6 +57,25 @@ class DataManager:
                     logger.error(f"Error reading {price_file}: {e}")
         return visited
 
+    def _load_visited_properties(self):
+        visited = set()
+        import glob
+        pattern = os.path.join(self.data_dir, "properties*.jsonl")
+        for prop_file in glob.glob(pattern):
+            if os.path.exists(prop_file):
+                try:
+                    with open(prop_file, 'r', encoding='utf-8') as f:
+                        for line in f:
+                            try:
+                                data = json.loads(line)
+                                if 'id' in data:
+                                    visited.add(data['id'])
+                            except json.JSONDecodeError:
+                                pass
+                except Exception as e:
+                    logger.error(f"Error reading {prop_file}: {e}")
+        return visited
+
     def _get_handle(self, file_key):
         if file_key not in self.file_handles:
             self.file_handles[file_key] = open(self.files[file_key], 'w', encoding='utf-8')
@@ -66,6 +86,12 @@ class DataManager:
 
     def mark_project_visited(self, project_id):
         self.visited_projects.add(project_id)
+
+    def is_property_visited(self, property_id):
+        return property_id in self.visited_properties
+
+    def mark_property_visited(self, property_id):
+        self.visited_properties.add(property_id)
 
     def append_data(self, file_key, data_list):
         """

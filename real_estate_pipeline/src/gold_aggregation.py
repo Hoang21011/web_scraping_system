@@ -62,9 +62,8 @@ def create_gold_layer():
     parquet_path = os.path.join(gold_dir, 'gold_price_by_ward.parquet')
     print(f"Bảng gold_price_by_ward đã lưu.")
     
-    # ====================================================================================
-    # NHÓM 1: TỔNG QUAN THỊ TRƯỜNG (MARKET OVERVIEW)
-    # ====================================================================================
+    # MARKET OVERVIEW
+
     print("Đang tổng hợp dữ liệu: gold_property_summary...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_property_summary AS
@@ -97,9 +96,8 @@ def create_gold_layer():
     """)
     conn.execute(f"COPY gold_property_area_bins TO '{os.path.join(gold_dir, 'gold_property_area_bins.parquet')}' (FORMAT PARQUET);")
 
-    # ====================================================================================
-    # NHÓM 2: XU HƯỚNG BIẾN ĐỘNG GIÁ (PRICE TRENDS)
-    # ====================================================================================
+    # PRICE TRENDS
+
     print("Đang tổng hợp dữ liệu: gold_price_history_monthly...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_price_history_monthly AS
@@ -128,9 +126,8 @@ def create_gold_layer():
     """)
     conn.execute(f"COPY gold_developer_pricing TO '{os.path.join(gold_dir, 'gold_developer_pricing.parquet')}' (FORMAT PARQUET);")
 
-    # ====================================================================================
-    # NHÓM 3: HIỆU SUẤT DỰ ÁN & PHÂN KHU (PROJECT PERFORMANCE)
-    # ====================================================================================
+    # PROJECT OVERVIEW
+
     print("Đang tổng hợp dữ liệu: gold_project_quality...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_project_quality AS
@@ -147,21 +144,56 @@ def create_gold_layer():
     """)
     conn.execute(f"COPY gold_project_quality TO '{os.path.join(gold_dir, 'gold_project_quality.parquet')}' (FORMAT PARQUET);")
 
+    print("Đang tổng hợp dữ liệu: gold_subdivision_area_boxplot...")
+    conn.execute(f"""
+    CREATE OR REPLACE TABLE gold_subdivision_area_boxplot AS
+    SELECT 
+        sector_name,
+        MIN(min_area) as min_carpet_area,
+        MAX(max_area) as max_carpet_area,
+        MEDIAN((min_area + max_area)/2) as median_carpet_area
+    FROM read_parquet('{os.path.join(silver_dir, "properties.parquet")}')
+    WHERE sector_name IS NOT NULL AND min_area IS NOT NULL AND max_area IS NOT NULL
+    GROUP BY sector_name
+    """)
+    conn.execute(f"COPY gold_subdivision_area_boxplot TO '{os.path.join(gold_dir, 'gold_subdivision_area_boxplot.parquet')}' (FORMAT PARQUET);")
+
     print("Đang tổng hợp dữ liệu: gold_subdivision_metrics...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_subdivision_metrics AS
     SELECT 
-        id, name, project_id,
-        (min_prop_per_floor + max_prop_per_floor)/2.0 as avg_prop_per_floor,
-        (number_ele_min + number_ele_max)/2.0 as avg_ele,
-        number_living_floor
-    FROM read_parquet('{os.path.join(silver_dir, "subdivisions.parquet")}')
+        s.id as subdivision_id, 
+        s.name as subdivision_name, 
+        s.project_id,
+        p.name as project_name,
+        p.district,
+        p.province,
+        (s.min_prop_per_floor + s.max_prop_per_floor)/2.0 as avg_prop_per_floor,
+        (s.number_ele_min + s.number_ele_max)/2.0 as avg_ele,
+        s.number_living_floor
+    FROM read_parquet('{os.path.join(silver_dir, "subdivisions.parquet")}') s
+    LEFT JOIN read_parquet('{os.path.join(silver_dir, "projects.parquet")}') p ON s.project_id = p.id
     """)
     conn.execute(f"COPY gold_subdivision_metrics TO '{os.path.join(gold_dir, 'gold_subdivision_metrics.parquet')}' (FORMAT PARQUET);")
 
-    # ====================================================================================
-    # NHÓM 4: BẢN ĐỒ KHÔNG GIAN (GEOSPATIAL ANALYSIS)
-    # ====================================================================================
+    print("Đang tổng hợp dữ liệu: gold_project_handover_timeline...")
+    conn.execute(f"""
+    CREATE OR REPLACE TABLE gold_project_handover_timeline AS
+    SELECT 
+        id as project_id, 
+        name as project_name, 
+        district, 
+        province, 
+        developer_name, 
+        handover_date_from
+    FROM read_parquet('{os.path.join(silver_dir, "projects.parquet")}')
+    WHERE handover_date_from IS NOT NULL
+    ORDER BY handover_date_from ASC
+    """)
+    conn.execute(f"COPY gold_project_handover_timeline TO '{os.path.join(gold_dir, 'gold_project_handover_timeline.parquet')}' (FORMAT PARQUET);")
+
+    # GEOSPACIAL
+
     print("Đang tổng hợp dữ liệu: gold_geo_heatmap...")
     conn.execute(f"""
     CREATE OR REPLACE TABLE gold_geo_heatmap AS

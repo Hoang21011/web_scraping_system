@@ -1,5 +1,4 @@
 name: "web-scraping-system"
-version: "3.9"
 
 services:
   datalake:
@@ -114,6 +113,9 @@ services:
       - "8081:8081"
     environment:
       - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081
+      - _AIRFLOW_WWW_USER_USERNAME=admin
+      - _AIRFLOW_WWW_USER_PASSWORD=admin
+      - _PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-apache-spark
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/8081'"]
       interval: 30s

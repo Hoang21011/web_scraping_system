@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
+
 import boto3
 import tarfile
 import os
@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'Nguyen Hoang Nghia',
-    'start_date': days_ago(1)
+    'start_date': datetime(2024, 1, 1)
 }
 
 def compact_bronze_files(**kwargs):

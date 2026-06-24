@@ -3,11 +3,10 @@ from airflow import DAG         # Định nghĩa thứ tự thực thi của cá
 from airflow.operators.bash import BashOperator     # Công cụ cho phép Airflow chạy câu lệnh trên hệ điều hành
 # pyrefly: ignore [missing-import]
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator # Công cụ chuyên dụng được dùng để kích hoạt ứng dụng spark. tương đương với spark-submit
-# pyrefly: ignore [missing-import]
-from airflow.utils.dates import days_ago
+
 import os
 import requests
-from datetime import timedelta
+from datetime import datetime, timedelta
 
 # Hàm gửi thông báo discord khi thất bại
 def task_failed_discord_alert(context):
@@ -23,7 +22,7 @@ def task_failed_discord_alert(context):
 default_arg = {
     'owner': 'Nguyen Hoang Nghia',
     'depends_on_past': False,
-    'start_date': days_ago(1),
+    'start_date': datetime(2024, 1, 1),
     'retries': 3,
     'retry_delay': timedelta(minutes=1),
     'on_failure_callback': task_failed_discord_alert

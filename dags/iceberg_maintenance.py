@@ -1,10 +1,10 @@
 from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-from airflow.utils.dates import days_ago
+from datetime import datetime
 
 default_args = {
     'owner': 'Nguyen Hoang Nghia',
-    'start_date': days_ago(1) 
+    'start_date': datetime(2024, 1, 1) 
 }
 
 with DAG('monthly_iceberg_maintenance', default_args=default_args, schedule_interval='@monthly') as dag:
