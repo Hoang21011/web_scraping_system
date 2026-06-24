@@ -55,7 +55,7 @@ def compact_bronze_files(**kwargs):
     # Xóa file tar.gz ở local
     os.remove(archive_name)
 
-with DAG('monthly_bronze_compaction', default_args=default_args, schedule_interval='0 0 30 * *') as dag:
+with DAG('monthly_bronze_compaction', default_args=default_args, schedule='0 0 30 * *') as dag:
     compact_task = PythonOperator(
         task_id='compact_files',
         python_callable=compact_bronze_files

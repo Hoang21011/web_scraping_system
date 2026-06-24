@@ -7,7 +7,7 @@ default_args = {
     'start_date': datetime(2024, 1, 1) 
 }
 
-with DAG('monthly_iceberg_maintenance', default_args=default_args, schedule_interval='@monthly') as dag:
+with DAG('monthly_iceberg_maintenance', default_args=default_args, schedule='@monthly') as dag:
     run_maintenance = SparkSubmitOperator(
         task_id='clean_iceberg_trash',
         conn_id='spark_default',
