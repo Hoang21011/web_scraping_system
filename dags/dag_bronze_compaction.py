@@ -6,6 +6,9 @@ import tarfile
 import os
 from datetime import datetime, timedelta
 
+# boto3: Thư viện này cho phép các lập trình viên dễ dàng viết code Python để tạo, 
+# quản lý và tương tác trực tiếp với các dịch vụ đám mây của AWS
+
 default_args = {
     'owner': 'Nguyen Hoang Nghia',
     'start_date': days_ago(1)
@@ -29,6 +32,7 @@ def compact_bronze_files(**kwargs):
 
     with tarfile.open(archive_name, "w:gz") as tar:
         for obj in response['Contents']:
+            
             file_key = obj['Key']
             local_path = f"/tmp/{os.path.basename(file_key)}"
             
