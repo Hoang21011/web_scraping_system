@@ -7,9 +7,11 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+load_dotenv(os.getenv("CONFIG_FILE_PATH"), override=True)
 
 import argparse
+
+# File này có nhiệm vụ tạo ra các dashboard display trên Databricks
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('--silver-data-dir', default=os.getenv("SILVER_DATA_DIR"))
@@ -27,7 +29,7 @@ if not GOLD_DATA_DIR:
 def create_gold_layer():
     print("Bắt đầu xử lý dữ liệu Silver -> Gold...")
     
-    # Thư mục chứa dữ liệu Silver (đầu vào) và Gold (đầu ra)
+    # Thư mục chứa dữ liệu Silver và Gold
     silver_dir_name = SILVER_DATA_DIR
     silver_dir = silver_dir_name if os.path.isabs(silver_dir_name) else os.path.join(os.path.dirname(__file__), "..", silver_dir_name)
 
@@ -38,7 +40,7 @@ def create_gold_layer():
     # Sử dụng DuckDB in-memory
     conn = duckdb.connect(':memory:')
     
-    # Aggregate: Tính giá trung bình, min, max theo Quận/Phường
+    # Aggregate
     print("Đang tổng hợp dữ liệu Gold: Giá trung bình theo khu vực...")
     
     query = f"""

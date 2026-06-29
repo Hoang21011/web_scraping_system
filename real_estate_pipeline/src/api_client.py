@@ -4,15 +4,21 @@ from logger_config import logger
 from dotenv import load_dotenv
 
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+load_dotenv(os.getenv("CONFIG_FILE_PATH"), override=True)
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
     "Accept": "application/json, text/plain, */*",
     "Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Referer": "https://onehousing.vn/",
-    "Origin": "https://onehousing.vn",
+    "Referer": os.getenv("WEBSITE"),
+    "Origin": os.getenv("WEBSITE"),
 }
+
+# Các hàm bên dưới sẽ theo logic sau:
+# - Dùng link API để xin dữ liệu từ máy chủ
+# - Nếu status_code = 200, máy chủ sẽ gửi dữ liệu, hệ thống tiếp nhận và đóng gói dưới dạng json
+# - Nếu máy chủ không tiếp nhận, hệ thống sẽ log lại và trả về none để không bị gián đoạn
+
 
 import argparse
 

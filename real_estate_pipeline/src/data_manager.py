@@ -5,13 +5,17 @@ from dotenv import load_dotenv
 
 # Load .env relative to this file
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+load_dotenv(os.getenv("CONFIG_FILE_PATH"), override=True)
 
 import argparse
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('--bronze-data-dir', default=os.getenv("BRONZE_DATA_DIR"))
 args, _ = parser.parse_known_args()
+# Tác vụ chính của đoạn code này là:
+# - Tạo ra các file jsonl lưu trữ như properties.jsonl hay projects.jsonl
+# - Mỗi lần chạy code, hệ thống sẽ tạo ra các file dữ liệu mới với id là thời gian chứ không ghi đè lên file cũ
+# - Tránh việc cào trùng những dự án và căn hộ đã tồn tại qua project_id và property_id
 
 BRONZE_DATA_DIR = args.bronze_data_dir
 if not BRONZE_DATA_DIR:
@@ -94,10 +98,8 @@ class DataManager:
         self.visited_properties.add(property_id)
 
     def append_data(self, file_key, data_list):
-        """
-        Append a list of dictionary items to the specified jsonl file.
-        Uses a long-lived file handle in 'w' mode to avoid Databricks 'Illegal seek' append errors.
-        """
+        # Append a list of dictionary items to the specified jsonl file.
+        # Uses a long-lived file handle in 'w' mode to avoid Databricks 'Illegal seek' append errors.
         if not data_list:
             return 0
             

@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 import argparse
 
 load_dotenv()
-load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+load_dotenv(os.getenv("CONFIG_FILE_PATH"), override=True)
 
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('--silver-data-dir', default=os.getenv("SILVER_DATA_DIR"))
@@ -86,7 +86,7 @@ def run_feature_engineering():
     print("Executing SQL JOIN...")
     df = conn.execute(query).df()
     
-    # 2. Nhóm 1: Feature cần chuyển đổi
+    # Feature cần chuyển đổi
     print("Kỹ thuật Nhóm 1...")
     
     def classify_bedroom(x):
@@ -119,7 +119,7 @@ def run_feature_engineering():
     # Xử lý missing min_area tránh chia 0
     df['bathroom_per_sqm'] = df['number_of_bathrooms'] / df['min_area'].replace(0, np.nan)
     
-    # 3. Nhóm 2: Feature giữ nguyên hoặc mã hoá cơ bản
+    # Feature giữ nguyên hoặc mã hoá cơ bản
     print("Kỹ thuật Nhóm 2...")
     furniture_map = {'bàn giao thô': 0, 'cơ bản': 1, 'liền tường': 2, 'đầy đủ': 3, 'cao cấp': 4}
     df['furniture_status_encoded'] = df['furniture_status'].str.lower().map(furniture_map).fillna(1)
@@ -128,7 +128,7 @@ def run_feature_engineering():
     df['floor_bin'] = df['floor_number']
     df['infra_quality'] = df['infra_grade']
     
-    # 4. Nhóm 3: Feature phái sinh (Nâng cao)
+    # Feature phái sinh 
     print("Kỹ thuật Nhóm 3 (Advanced)...")
     
     df['is_corner'] = df['positions'].str.lower().str.contains('góc').fillna(False).astype(int)
@@ -139,7 +139,7 @@ def run_feature_engineering():
     
     df['density_vs_location'] = df['cstn_dens'] * df['center_rd_dist']
     
-    # Boutique index (Tránh chia 0 và NA)
+    # Boutique index và tránh chia 0 và NA
     elev_density = df['max_prop_per_floor'] / df['number_ele_max'].replace(0, np.nan)
     elev_density = elev_density.fillna(0)
     df['boutique_index'] = np.where(elev_density > 0, 1 / elev_density, 0)

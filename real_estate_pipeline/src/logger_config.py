@@ -5,10 +5,13 @@ from dotenv import load_dotenv
 
 # Load .env
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
-load_dotenv("/Volumes/workspace/default/real_estate_data/config.env", override=True)
+load_dotenv(os.getenv("CONFIG_FILE_PATH"), override=True)
+
+# File này có nhiệm vụ:
+# - Ghi lại các bug 
+# - Hiện thị quá trình trên màn hình terminal
 
 import argparse
-
 parser = argparse.ArgumentParser(add_help=False)
 parser.add_argument('--log-dir', default=os.getenv("LOG_DIR"))
 args, _ = parser.parse_known_args()
