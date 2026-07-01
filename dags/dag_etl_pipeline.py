@@ -52,7 +52,7 @@ with DAG("daily_etl_and_quality_check", default_args = default_arg, schedule = '
 
     run_gx_validation = BashOperator(
         task_id='run_gx',
-        bash_command='docker exec web-scraping-system-spark-master-1 python /app/gx/gx_checkpoint.py'
+        bash_command='docker exec web-scraping-system-spark-master-1 /opt/spark/bin/spark-submit --conf spark.jars.ivy=/tmp/.ivy2 --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0 /app/gx/gx_checkpoint.py'
     )
 
     silver_to_gold = BashOperator(
