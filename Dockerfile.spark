@@ -1,0 +1,5 @@
+FROM apache/spark:3.5.0
+USER root
+# Install great_expectations for Data Quality checks
+RUN pip install great_expectations python-dotenv
+USER 185
