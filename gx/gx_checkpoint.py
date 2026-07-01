@@ -3,8 +3,10 @@ import sys
 import great_expectations as gx
 import os
 from pyspark.sql import SparkSession
+from dotenv import load_dotenv
 
 def run_checkpoint():
+    load_dotenv("/app/.env")
     context = gx.get_context(mode="file", project_root_dir=os.environ.get("PROJECT_ROOT_DIR"))
     spark = SparkSession.builder \
         .appName("gx_quality_check") \
@@ -13,8 +15,8 @@ def run_checkpoint():
         .config("spark.sql.catalog.iceberg", "org.apache.iceberg.spark.SparkCatalog") \
         .config("spark.sql.catalog.iceberg.type", "jdbc") \
         .config("spark.sql.catalog.iceberg.uri", "jdbc:postgresql://postgres:5432/iceberg_catalog") \
-        .config("spark.sql.catalog.iceberg.jdbc.user", "iceberg") \
-        .config("spark.sql.catalog.iceberg.jdbc.password", "iceberg") \
+        .config("spark.sql.catalog.iceberg.jdbc.user", "postgres") \
+        .config("spark.sql.catalog.iceberg.jdbc.password", "trust") \
         .config("spark.sql.catalog.iceberg.warehouse", "s3a://silver/") \
         .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
         .config("spark.hadoop.fs.s3a.access.key", os.environ.get("MINIO_ROOT_USER")) \

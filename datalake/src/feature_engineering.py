@@ -1,6 +1,7 @@
 # Databricks notebook source
 import os
 import argparse
+import pandas as pd
 from dotenv import load_dotenv
 from pyspark.sql import SparkSession    
 from pyspark.sql.functions import (
@@ -27,7 +28,7 @@ spark = SparkSession.builder \
     .config("spark.sql.catalog.iceberg.io-impl", "org.apache.iceberg.aws.s3.S3FileIO") \
     .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
     .config("spark.hadoop.fs.s3a.access.key", os.environ.get("MINIO_ROOT_USER", "admin")) \
-    .config("spark.hadoop.fs.s3a.access.secret", os.environ.get("MINIO_ROOT_PASSWORD", "12345678")) \
+    .config("spark.hadoop.fs.s3a.secret.key", os.environ.get("MINIO_ROOT_PASSWORD", "12345678")) \
     .config("spark.hadoop.fs.s3a.path.style.access", "true") \
     .getOrCreate()
 

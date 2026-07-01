@@ -9,11 +9,12 @@ from html_parser import fetch_html_page, extract_properties_from_html
 from api_client import fetch_quick_filter, fetch_project_details, fetch_price_history, fetch_price_chart
 
 import json
+import os
 from kafka import KafkaProducer
 
-# BÌNH LUẬN SỬA LỖI: Dùng bootstrap_servers (có s), port 29092 (vì file chạy ngoài docker), encode utf-8
+# BÌNH LUẬN SỬA LỖI: Lấy bootstrap servers từ biến môi trường (mặc định kafka:9092 vì chạy trong Docker)
 producer = KafkaProducer(
-    bootstrap_servers=['localhost:29092'], 
+    bootstrap_servers=[os.environ.get("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092")], 
     value_serializer=lambda v: json.dumps(v).encode('utf-8')
 )
 

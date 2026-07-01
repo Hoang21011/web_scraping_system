@@ -19,8 +19,8 @@ spark = SparkSession.builder \
     .master("spark://spark-master:7077") \
     .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.apache.hadoop:hadoop-aws:3.3.4") \
     .config("spark.hadoop.fs.s3a.endpoint", "http://minio:9000") \
-    .config("spark.hadoop.fs.s3a.access.key", os.environ.get("MINIO_ROOT_USER", "admin")) \
-    .config("spark.hadoop.fs.s3a.access.secret", os.environ.get("MINIO_ROOT_PASSWORD", "12345678")) \
+    .config("spark.hadoop.fs.s3a.access.key", os.environ.get("MINIO_ROOT_USER")) \
+    .config("spark.hadoop.fs.s3a.secret.key", os.environ.get("MINIO_ROOT_PASSWORD")) \
     .config("spark.hadoop.fs.s3a.path.style.access", "true") \
     .getOrCreate()
 

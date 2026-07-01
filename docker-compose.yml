@@ -11,7 +11,7 @@ services:
       - PORT=8000
       - MINIO=http://minio:9000
       - TRINO=http://trino:8080
-      - AIRFLOW=http://airflow:8081
+      - AIRFLOW=http://airflow:8080
       - KAFKA=http://kafka:9092
       - POSTGRES=http://localhost:5432
       - ZOOKEEPER=http://localhost:2181
@@ -101,23 +101,27 @@ services:
       - internal
 
   airflow:
-    image: apache/airflow:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.airflow
     command: standalone
     # Tạo volumes để các dags không biến mất khi tắt container
     volumes:
      - ./dags:/opt/airflow/dags
      - ./logs:/opt/airflow/logs
      - ./plugins:/opt/airflow/plugins
+     - ./:/app
+     - /var/run/docker.sock:/var/run/docker.sock
     user: "${AIRFLOW_UID:-50000}:0" # Fix lỗi permission
     ports:
-      - "8081:8081"
+      - "8081:8080"
+    env_file:
+      - .env
     environment:
-      - AIRFLOW__WEBSERVER__WEB_SERVER_PORT=8081
       - _AIRFLOW_WWW_USER_USERNAME=admin
       - _AIRFLOW_WWW_USER_PASSWORD=admin
-      - _PIP_ADDITIONAL_REQUIREMENTS=apache-airflow-providers-apache-spark
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/8081'"]
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/localhost/8080'"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -157,7 +161,9 @@ services:
       - internal
 
   spark-master:
-    image: apache/spark:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.master.Master --host spark-master
     ports:
       - "8080:8080"
@@ -167,16 +173,45 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
     networks:
       - internal
 
   spark-worker:
-    image: apache/spark:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.spark
     command: /opt/spark/bin/spark-class org.apache.spark.deploy.worker.Worker spark://spark-master:7077
     depends_on:
       - spark-master
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
     networks:
       - internal
+  
+  spark-streaming:
+    build: 
+      context: .
+      dockerfile: Dockerfile.spark
+    command: >
+      /opt/spark/bin/spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0,org.apache.hadoop:hadoop-aws:3.3.4 
+      /app/datalake/orchestration/streaming_ingest.py
+    depends_on:
+      - spark-master
+      - kafka
+      - minio
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    networks:
+      - internal
+    restart: unless-stopped
 
 volumes:
   datalake-data:

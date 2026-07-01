@@ -1,8 +1,6 @@
 from airflow import DAG         # Định nghĩa thứ tự thực thi của các tác vụ
 # pyrefly: ignore [missing-import]
 from airflow.operators.bash import BashOperator     # Công cụ cho phép Airflow chạy câu lệnh trên hệ điều hành
-# pyrefly: ignore [missing-import]
-from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator # Công cụ chuyên dụng được dùng để kích hoạt ứng dụng spark. tương đương với spark-submit
 
 import os
 import requests
@@ -10,14 +8,22 @@ from datetime import datetime, timedelta
 
 # Hàm gửi thông báo discord khi thất bại
 def task_failed_discord_alert(context):
-    discord_webhook_token = os.environ.get("DISCORD_WEB_HOOK")
-    discord_msg = f"""
-        ! Task Failerd
+    try:
+        from dotenv import load_dotenv
+        load_dotenv("/app/.env")
+        discord_webhook_token = os.environ.get("DISCORD_WEBHOOK")
+        if not discord_webhook_token:
+            return
+
+        discord_msg = f"""
+        🔴 **Task Failed!**
         *Task*: {context.get('task_instance').task_id}
         *DAG*: {context.get('task_instance').dag_id}
         *Execution Time*: {context.get("execution_date")}
-    """
-    requests.post(discord_webhook_token, json = {"content": discord_msg})
+        """
+        requests.post(discord_webhook_token, json={"content": discord_msg})
+    except Exception as e:
+        print(f"Lỗi khi gửi webhook discord: {e}")
 
 default_arg = {
     'owner': 'Nguyen Hoang Nghia',
@@ -34,30 +40,29 @@ with DAG("daily_etl_and_quality_check", default_args = default_arg, schedule = '
     # catchup = False. Nếu catchup bằng True, khi mà airflow không chạy trong 1 tháng, khi được bật lên airflow sẽ chạy bù 30 lần liên tục
 
     #1: Crawl Data
-    crawl_data = SparkSubmitOperator(
+    crawl_data = BashOperator(
         task_id='crawl_data',
-        application="/Users/nghia/Documents/web_scraping_system/datalake/src/main.py",
-        conn_id='spark_default',
-        packages='org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0'
+        bash_command='docker exec web-scraping-system-datalake-1 python /app/datalake/src/main.py'
     )
 
-    bronze_to_silver = SparkSubmitOperator(
-        task_id='run_silver_pipeline',
-        conn_id='spark_default',
-        application='/Users/nghia/Documents/web_scraping_system/datalake/src/silver_etl.py',
-        packages= 'org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0'
+    bronze_to_silver = BashOperator(
+        task_id='bronze_to_silver_etl',
+        bash_command='docker exec web-scraping-system-spark-master-1 /opt/spark/bin/spark-submit --conf spark.jars.ivy=/tmp/.ivy2 --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0 /app/datalake/src/silver_etl.py'
     )
 
     run_gx_validation = BashOperator(
-        task_id = 'run_gx',
-        bash_command = 'python /Users/nghia/Documents/web_scraping_system/gx/gx_checkpoint.py'
+        task_id='run_gx',
+        bash_command='docker exec web-scraping-system-spark-master-1 python /app/gx/gx_checkpoint.py'
     )
 
-    silver_to_gold = SparkSubmitOperator(
-        task_id='run_gold_pipeline',
-        conn_id='spark_default',
-        application='/Users/nghia/Documents/web_scraping_system/datalake/src/feature_engineering.py',
-        packages='org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0'
+    silver_to_gold = BashOperator(
+        task_id='feature_engineering_gold',
+        bash_command='docker exec web-scraping-system-spark-master-1 /opt/spark/bin/spark-submit --conf spark.jars.ivy=/tmp/.ivy2 --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.5.0,org.apache.hadoop:hadoop-aws:3.3.4,org.postgresql:postgresql:42.6.0 /app/datalake/src/feature_engineering.py'
     )
 
-    crawl_data >> bronze_to_silver >> run_gx_validation >> silver_to_gold   
+    wait_for_streaming = BashOperator(
+        task_id = 'wait_for_streaming',
+        bash_command = 'sleep 15'
+    )
+
+    crawl_data >> wait_for_streaming >> bronze_to_silver >> run_gx_validation >> silver_to_gold   
